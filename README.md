@@ -1,11 +1,13 @@
 ﻿<h2 align="left">Hi 👋! My name is Lewis Nguyen</h2>
 
-###
-
-<div align="left">
-  <img src="https://github-readme-stats.vercel.app/api/top-langs?locale=en&hide_title=true&layout=compact&card_width=320&langs_count=5&theme=dracula&hide_border=true&username=tuzkituan" height="150" alt="languages graph"  />
-</div>
-
+```css
+#tuzkituan { 
+  position: Frontend Developer; 
+  height: 171cm; 
+  display: boy; 
+  color: mint; 
+}
+```
 ###
 
 <div align="left">
@@ -23,8 +25,6 @@
 
 ###
 
-<img align="right" height="150" src="https://i.imgflip.com/65efzo.gif"  />
-
 ###
 
 <div align="left">
@@ -40,9 +40,4 @@
   <a href="https://lewisnguyen2804.t.me" target="_blank">
     <img src="https://img.shields.io/static/v1?message=Telegram&logo=telegram&label=&color=2CA5E0&logoColor=white&labelColor=&style=for-the-badge" height="35" alt="telegram logo"  />
   </a>
-  <a href="tuzkituan@hotmail.com" target="_blank">
-    <img src="https://img.shields.io/static/v1?message=Outlook&logo=microsoft-outlook&label=&color=0078D4&logoColor=white&labelColor=&style=for-the-badge" height="35" alt="microsoft-outlook logo"  />
-  </a>
 </div>
-
-###
