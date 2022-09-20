@@ -1,5 +1,3 @@
-﻿<h2 align="left">Hi 👋! My name is Lewis Nguyen</h2>
-
 ```css
 #tuzkituan { 
   position: Frontend Developer; 
