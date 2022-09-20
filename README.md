@@ -2,7 +2,7 @@
 
 ```css
 #tuzkituan { 
-  position: Frontend & Mobile Developer; 
+  position: Frontend && Mobile Developer; 
   height: 171cm; 
   display: boy; 
   color: mint; 
