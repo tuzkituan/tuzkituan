@@ -1,4 +1,4 @@
-<img src="dino.gif" width="100%" alt="javascript logo"  />
+[//]: <img src="dino.gif" width="100%" alt="javascript logo"  />
 
 ```css
 #tuzkituan { 
