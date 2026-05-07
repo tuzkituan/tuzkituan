@@ -18,13 +18,14 @@
   <img height="52" alt="Get it on Google Play" src="https://github.com/user-attachments/assets/9333703c-eee8-4ea6-8570-8da69bc633c0" />
 </a>
 
-<br />
-<div style="display: flex; flex-direction: row; flex-wrap: wrap; gap: 12px;">
-<a href="assets/Screenshot_20260506-154731.png"><img width="100" alt="screenshot" src="assets/Screenshot_20260506-154731.png" /></a>
-<a href="assets/Screenshot_20260506-155037.png"><img width="100" alt="screenshot" src="assets/Screenshot_20260506-155037.png" /></a>
-<a href="assets/Screenshot_20260506-154158.png"><img width="100" alt="screenshot" src="assets/Screenshot_20260506-154158.png" /></a>
-<a href="assets/Screenshot_20260506-154907.png"><img width="100" alt="screenshot" src="assets/Screenshot_20260506-154907.png" /></a>
-<a href="assets/Screenshot_20260506-154204.png"><img width="100" alt="screenshot" src="assets/Screenshot_20260506-154204.png" /></a>
+###
+
+<div style="display: flex; flex-direction: row; flex-wrap: wrap; gap: 16px;">
+<a href="assets/Screenshot_20260506-154731.png"><img width="140" alt="screenshot" src="assets/Screenshot_20260506-154731.png" /></a>
+<a href="assets/Screenshot_20260506-155037.png"><img width="140" alt="screenshot" src="assets/Screenshot_20260506-155037.png" /></a>
+<a href="assets/Screenshot_20260506-154158.png"><img width="140" alt="screenshot" src="assets/Screenshot_20260506-154158.png" /></a>
+<a href="assets/Screenshot_20260506-154907.png"><img width="140" alt="screenshot" src="assets/Screenshot_20260506-154907.png" /></a>
+<a href="assets/Screenshot_20260506-154204.png"><img width="140" alt="screenshot" src="assets/Screenshot_20260506-154204.png" /></a>
 </div>
 <br />
 
