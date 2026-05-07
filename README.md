@@ -20,7 +20,7 @@
 
 ###
 
-<div style="display: flex; flex-direction: row; flex-wrap: wrap; gap: 16px;">
+<div style="display: flex; flex-direction: row; flex-wrap: wrap; gap: 24px;">
 <a href="assets/Screenshot_20260506-154731.png"><img width="140" alt="screenshot" src="assets/Screenshot_20260506-154731.png" /></a>
 <a href="assets/Screenshot_20260506-155037.png"><img width="140" alt="screenshot" src="assets/Screenshot_20260506-155037.png" /></a>
 <a href="assets/Screenshot_20260506-154158.png"><img width="140" alt="screenshot" src="assets/Screenshot_20260506-154158.png" /></a>
