@@ -33,7 +33,8 @@
 [Windows Central](https://www.windowscentral.com/hardware/windows-phone/metrov-windows-phone-launcher) &nbsp;·&nbsp;
 [Quantrimang](https://quantrimang.com/cong-nghe/cai-dat-launcher-metrov-tren-vanilla-android-211955) &nbsp;·&nbsp;
 [Yahoo Tech](https://tech.yahoo.com/apps/articles/closest-ive-felt-using-lumia-131307539.html) &nbsp;·&nbsp;
-[Pocket-lint](https://www.pocket-lint.com/best-windows-style-launcher-apps-for-android/)
+[Pocket-lint](https://www.pocket-lint.com/best-windows-style-launcher-apps-for-android/) &nbsp;·&nbsp;
+[HowToGeek](https://www.howtogeek.com/this-launcher-turned-my-pixel-into-a-nokia-lumia-windows-phone/)
 
 ###
 
