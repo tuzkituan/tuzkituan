@@ -12,7 +12,7 @@
 
 ###
 
-🚀 <b>METROV Launcher</b>
+![Typing SVG](https://readme-typing-svg.demolab.com?font=IBM+Plex+Sans&weight=600&size=16&pause=1000&vCenter=true&width=435&height=32&lines=%F0%9F%9A%80+METROV+Launcher)
 
 <a href="https://play.google.com/store/apps/details?id=com.tuzkituan.metrov" target="_blank" style="margin-left: -8px">
   <img height="52" alt="Get it on Google Play" src="https://github.com/user-attachments/assets/9333703c-eee8-4ea6-8570-8da69bc633c0" />
