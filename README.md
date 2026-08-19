@@ -10,7 +10,7 @@ tuzkituan@github:~$ neofetch
            Height : 171cm · Color: mint
 ```
 
-<br />
+###
 
 ```console
 tuzkituan@github:~$ ./metrov --install   # Windows Phone-style launcher for Android
@@ -36,7 +36,7 @@ tuzkituan@github:~$ ./metrov --install   # Windows Phone-style launcher for Andr
 [Pocket-lint](https://www.pocket-lint.com/best-windows-style-launcher-apps-for-android/) &nbsp;·&nbsp;
 [HowToGeek](https://www.howtogeek.com/this-launcher-turned-my-pixel-into-a-nokia-lumia-windows-phone/)
 
-<br />
+###
 
 ```console
 tuzkituan@github:~$ whois tuzkituan
@@ -49,7 +49,7 @@ tuzkituan@github:~$ whois tuzkituan
   <img src="https://img.shields.io/static/v1?message=LinkedIn&logo=linkedin&label=&color=0077B5&logoColor=white&labelColor=&style=for-the-badge" height="35" alt="linkedin logo" />
 </a>
 
-<br />
+###
 
 ```console
 tuzkituan@github:~$ sudo apt install coffee
