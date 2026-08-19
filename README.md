@@ -1,24 +1,24 @@
 [//]: <img src="dino.gif" width="100%" alt="javascript logo"  />
 
-```css
-#tuzkituan {
-  position: frontend / mobile developer;
-  height: 171cm;
-  display: boy;
-  color: mint;
-  skills: html / css / js / ts / reactjs / flutter / linux;
-}
+```console
+tuzkituan@github:~$ neofetch
+
+           tuzkituan@github
+  /\_/\    ----------------
+( o.o )    Role   : frontend / mobile developer
+ > ^ <     Stack  : ts · reactjs · flutter · linux
+           Height : 171cm · Color: mint
 ```
 
-###
+<br />
 
-![Typing SVG](https://readme-typing-svg.demolab.com?font=IBM+Plex+Sans&weight=600&size=16&pause=1000&vCenter=true&width=435&height=32&lines=%F0%9F%9A%80+METROV+Launcher)
+```console
+tuzkituan@github:~$ ./metrov --install   # Windows Phone-style launcher for Android
+```
 
 <a href="https://play.google.com/store/apps/details?id=com.tuzkituan.metrov" target="_blank" style="margin-left: -8px">
   <img height="52" alt="Get it on Google Play" src="https://github.com/user-attachments/assets/9333703c-eee8-4ea6-8570-8da69bc633c0" />
 </a>
-
-###
 
 <div style="display: flex; flex-direction: row; flex-wrap: wrap; gap: 24px;">
 <a href="assets/Screenshot_20260506-154731.png"><img width="140" alt="screenshot" src="assets/Screenshot_20260506-154731.png" /></a>
@@ -36,9 +36,11 @@
 [Pocket-lint](https://www.pocket-lint.com/best-windows-style-launcher-apps-for-android/) &nbsp;·&nbsp;
 [HowToGeek](https://www.howtogeek.com/this-launcher-turned-my-pixel-into-a-nokia-lumia-windows-phone/)
 
-###
+<br />
 
-🐱 <b>Contact me</b>
+```console
+tuzkituan@github:~$ whois tuzkituan
+```
 
 <a href="mailto:tuannguyenitpy@gmail.com" target="_blank">
   <img src="https://img.shields.io/static/v1?message=Gmail&logo=gmail&label=&color=D14836&logoColor=white&labelColor=&style=for-the-badge" height="35" alt="gmail logo" />
@@ -46,3 +48,15 @@
 <a href="https://www.linkedin.com/in/ngoctuanitpy/" target="_blank">
   <img src="https://img.shields.io/static/v1?message=LinkedIn&logo=linkedin&label=&color=0077B5&logoColor=white&labelColor=&style=for-the-badge" height="35" alt="linkedin logo" />
 </a>
+
+<br />
+
+```console
+tuzkituan@github:~$ sudo apt install coffee
+```
+
+<a href="https://www.paypal.me/lewisnguyen2804" target="_blank">
+  <img src="https://img.shields.io/static/v1?message=PayPal&logo=paypal&label=&color=00457C&logoColor=white&labelColor=&style=for-the-badge" height="35" alt="paypal logo" />
+</a>
+
+<sub>thanks for the tip, it keeps metrov shipping ☕</sub>
