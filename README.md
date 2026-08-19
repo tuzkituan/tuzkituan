@@ -4,9 +4,12 @@
 tuzkituan@github:~$ neofetch
 
            tuzkituan@github
- /\_/\     ----------------
-( o.o )    Role   : frontend / mobile developer
- > ^ <     Stack  : ts · reactjs · flutter · linux
+           ----------------
+  /\_/\    OS     : Fedora Linux 44 (Workstation)
+( o.o )    DE     : GNOME on Wayland
+ > ^ <     Shell  : zsh
+           Role   : frontend / mobile developer
+           Stack  : ts · reactjs · flutter · linux
            Height : 171cm · Color: mint
 ```
 
