@@ -4,7 +4,7 @@
 tuzkituan@github:~$ neofetch
 
            tuzkituan@github
-  /\_/\    ----------------
+ /\_/\     ----------------
 ( o.o )    Role   : frontend / mobile developer
  > ^ <     Stack  : ts · reactjs · flutter · linux
            Height : 171cm · Color: mint
