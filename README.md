@@ -52,7 +52,7 @@ tuzkituan@github:~$ whois tuzkituan
 ###
 
 ```console
-tuzkituan@github:~$ sudo apt install coffee
+tuzkituan@github:~$ sudo dnf install coffee
 ```
 
 <a href="https://www.paypal.me/lewisnguyen2804" target="_blank">
