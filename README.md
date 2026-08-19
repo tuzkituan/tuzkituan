@@ -5,7 +5,7 @@ tuzkituan@github:~$ neofetch
 
            tuzkituan@github
            ----------------
-  /\_/\    OS     : Fedora Linux 44 (Workstation)
+ /\_/\     OS     : Fedora Linux 44 (Workstation)
 ( o.o )    DE     : GNOME on Wayland
  > ^ <     Shell  : zsh
            Role   : frontend / mobile developer
