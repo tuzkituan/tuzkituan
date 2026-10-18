@@ -147,6 +147,7 @@ const THEMES = {
     faint: 'rgba(242,241,238,.38)',
     line: 'rgba(242,241,238,.15)',
     lineStrong: 'rgba(242,241,238,.4)',
+    frame: 'rgba(242,241,238,.24)',
     // The home hero: a near-black band inked in white.
     band: '#050506',
     bandStrong: '#ffffff',
@@ -167,6 +168,7 @@ const THEMES = {
     faint: 'rgba(16,16,20,.42)',
     line: 'rgba(16,16,20,.16)',
     lineStrong: 'rgba(16,16,20,.4)',
+    frame: 'rgba(16,16,20,.22)',
     band: '#e6e5e1',
     bandStrong: '#000000',
     bandMuted: 'rgba(16,16,20,.62)',
@@ -279,6 +281,10 @@ const STYLE = `
 .serif{font-family:tz-serif,Georgia,serif;letter-spacing:-.01em}
 @media (prefers-reduced-motion:reduce){*{animation:none!important}}`
 
+/** The panel's edge, drawn last so it sits over any fill. */
+const outline = (w, h, th) =>
+  `<rect x=".5" y=".5" width="${w - 1}" height="${h - 1}" fill="none" stroke="${th.frame}"/>`
+
 function svg(w, h, body, extraStyle = '') {
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}">
 <style>%%FONTS%%${STYLE}${extraStyle}</style>
@@ -366,7 +372,7 @@ function hero(th) {
       : ''
     return `<text x="${x + 32}" y="${y + 56}" class="display" font-size="40" letter-spacing="-1.4" fill="${th.accentInk}">${t('display', s.value)}</text>${star}${mono(x + 32, y + 78, s.label, th.faint, { size: 12 })}`
   }).join('')
-  const statLines = `<path d="M0 ${statsTop}H${W}M0 ${statsTop + CELL_H}H${W}M${W / 3} ${statsTop}V${H}M${(2 * W) / 3} ${statsTop}V${H}" stroke="${th.line}"/>`
+  const statLines = `<path d="M0 ${statsTop}H${W}M0 ${statsTop + CELL_H}H${W}M${W / 3} ${statsTop}V${H}M${(2 * W) / 3} ${statsTop}V${H}" stroke="${th.frame}"/>`
 
   const bio = wrap(PROFILE.bio, 16, 380)
     .map((l, i) => `<tspan x="560" dy="${i ? 26 : 0}">${t('sans', l)}</tspan>`)
@@ -377,7 +383,7 @@ function hero(th) {
 <rect y="${statsTop}" width="${W}" height="${H - statsTop}" fill="${th.page}"/>
 <text x="${PAD}" y="27" class="mono" font-size="13"><tspan fill="${th.bandFaint}">${t('mono', '01 /')}</tspan><tspan fill="${th.bandStrong}">${t('mono', ' OVERVIEW')}</tspan></text>
 ${mono(W - PAD, 27, `${PROFILE.role} · ${PROFILE.location}`, th.bandFaint, { size: 12, anchor: 'end' })}
-<path d="M0 ${STRIP - 0.5}H${W}" stroke="${th.bandLine}"/>
+<path d="M0 ${STRIP - 0.5}H${W}" stroke="${th.frame}"/>
 <svg y="${STRIP}" width="${W}" height="${BODY}" viewBox="0 0 ${W} ${BODY}">
   <defs><radialGradient id="fade" cx="50%" cy="50%" r="60%"><stop offset="40%" stop-color="#fff"/><stop offset="100%" stop-color="#fff" stop-opacity="0"/></radialGradient>
   <mask id="m"><rect width="${W}" height="${BODY}" fill="url(#fade)"/></mask></defs>
@@ -393,10 +399,11 @@ ${mono(W - PAD, 27, `${PROFILE.role} · ${PROFILE.location}`, th.bandFaint, { si
   ${arrow(728, 454, th.bandStrong, 8)}
   ${cat(866, BODY - 108, 104, th)}
 </svg>
-<path d="M0 ${top + 0.5}H${W}" stroke="${th.bandLine}"/>
+<path d="M0 ${top + 0.5}H${W}M0 ${statsTop + 0.5}H${W}" stroke="${th.frame}"/>
 <svg y="${top}" width="${W}" height="${TICK}" viewBox="0 0 ${W} ${TICK}">${ticker}</svg>
 ${statLines}
-${stats}`
+${stats}
+${outline(W, H, th)}`
 
   const style = `${CAT_STYLE}
 .run{animation:run 6s linear infinite}@keyframes run{to{transform:translate(${G}px,${G}px)}}
@@ -414,11 +421,12 @@ function section(th, index, label, meta, title, intro) {
     .join('')
   const body = `
 <rect width="${W}" height="${H}" fill="${th.page}"/>
-<path d="M0 .5H${W}M0 43.5H${W}" stroke="${th.line}"/>
+<path d="M0 43.5H${W}" stroke="${th.frame}"/>
 <text x="${PAD}" y="27" class="mono" font-size="13"><tspan fill="${th.faint}">${t('mono', `${String(index).padStart(2, '0')} /`)}</tspan><tspan fill="${th.strong}">${t('mono', ` ${label.toUpperCase()}`)}</tspan></text>
 ${mono(W - PAD, 27, meta, th.faint, { size: 12, anchor: 'end' })}
 ${heading(PAD, 44 + 60 + 40, title, 56, th.strong)}
-${lines.length ? `<text y="${44 + 60 + 52 + 34}" class="sans" font-size="18" fill="${th.muted}">${introText}</text>` : ''}`
+${lines.length ? `<text y="${44 + 60 + 52 + 34}" class="sans" font-size="18" fill="${th.muted}">${introText}</text>` : ''}
+${outline(W, H, th)}`
   return svg(W, H, body)
 }
 
@@ -462,7 +470,7 @@ function card(th, p, i) {
 ${mono(27, 27, n, '#fff', { size: 12, bold: true })}
 ${mono(CW - 22, 27, p.kicker, th.faint, { size: 12, anchor: 'end' })}
 <svg y="${shotY}" width="${CW}" height="${SHOT_H}" viewBox="0 0 ${CW} ${SHOT_H}"><rect width="${CW}" height="${SHOT_H}" fill="${th.sunken}"/>${shot}</svg>
-<path d="M0 ${shotY + 0.5}H${CW}M0 ${shotY + SHOT_H + 0.5}H${CW}" stroke="${th.line}"/>
+<path d="M0 ${shotY + 0.5}H${CW}M0 ${shotY + SHOT_H + 0.5}H${CW}" stroke="${th.frame}"/>
 <rect x="21" y="${iconY + 1}" width="58" height="58" fill="${p.accent}" stroke="${th.page}" stroke-width="2"/>
 ${icon}
 <text x="22" y="${shotY + SHOT_H + 76}" class="display" font-size="28" letter-spacing="-.9" fill="${th.strong}">${name}</text>
@@ -470,7 +478,7 @@ ${icon}
 ${chips}
 ${mono(22, CH - 28, explore, th.muted, { size: 12 })}
 ${arrow(22 + monoW(explore, 12) + 4, CH - 28, th.muted, 8)}
-<rect x=".5" y=".5" width="${CW - 1}" height="${CH - 1}" fill="none" stroke="${th.line}"/>`
+${outline(CW, CH, th)}`
   return svg(CW, CH, body)
 }
 
@@ -484,7 +492,7 @@ function tile(th, c, i) {
 ${mono(20, 32, `${String(i + 1).padStart(2, '0')} · ${host}`, th.faint, { size: 11 })}
 ${arrow(TW - 30, 34, th.muted, 9)}
 <text x="20" y="${TH - 28}" class="display" font-size="30" letter-spacing="-1" fill="${th.strong}">${t('display', c.label)}</text>
-<rect x=".5" y=".5" width="${TW - 1}" height="${TH - 1}" fill="none" stroke="${th.line}"/>`
+${outline(TW, TH, th)}`
   return svg(TW, TH, body)
 }
 
@@ -497,7 +505,7 @@ function coffee(th) {
 ${mono(PAD, 41, 'Fueled by coffee · it keeps the apps shipping', th.bandFaint, { size: 12 })}
 ${mono(W - PAD - 22, 41, cta, th.bandStrong, { size: 12, anchor: 'end' })}
 ${arrow(W - PAD - 12, 41, th.bandStrong, 8)}
-<rect x=".5" y=".5" width="${W - 1}" height="${H - 1}" fill="none" stroke="${th.bandLine}"/>`
+${outline(W, H, th)}`
   return svg(W, H, body)
 }
 

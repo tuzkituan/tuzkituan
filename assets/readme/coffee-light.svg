@@ -12,5 +12,5 @@
 <text x="48" y="41" class="mono" font-size="12" fill="rgba(16,16,20,.42)" text-anchor="start">FUELED BY COFFEE · IT KEEPS THE APPS SHIPPING</text>
 <text x="930" y="41" class="mono" font-size="12" fill="#000000" text-anchor="end">BUY ME ONE ON PAYPAL</text>
 <path d="M940 41 l8 -8 M942.4 33 h5.6 v5.6" fill="none" stroke="#000000" stroke-width="1.4"/>
-<rect x=".5" y=".5" width="999" height="71" fill="none" stroke="rgba(16,16,20,.13)"/>
+<rect x=".5" y=".5" width="999" height="71" fill="none" stroke="rgba(16,16,20,.22)"/>
 </svg>

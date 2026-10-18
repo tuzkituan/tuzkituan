@@ -9,9 +9,10 @@
 @media (prefers-reduced-motion:reduce){*{animation:none!important}}</style>
 
 <rect width="1000" height="192" fill="#f2f1ee"/>
-<path d="M0 .5H1000M0 43.5H1000" stroke="rgba(16,16,20,.16)"/>
+<path d="M0 43.5H1000" stroke="rgba(16,16,20,.22)"/>
 <text x="48" y="27" class="mono" font-size="13"><tspan fill="rgba(16,16,20,.42)">03 /</tspan><tspan fill="#000000"> PRESS</tspan></text>
 <text x="952" y="27" class="mono" font-size="12" fill="rgba(16,16,20,.42)" text-anchor="end">10 ARTICLES</text>
 <text x="48" y="144" font-size="56" fill="#000000" letter-spacing="-1.68"><tspan class="display">As seen </tspan><tspan class="serif" font-size="60.480000000000004">on</tspan><tspan class="display">.</tspan></text>
 
+<rect x=".5" y=".5" width="999" height="191" fill="none" stroke="rgba(16,16,20,.22)"/>
 </svg>
