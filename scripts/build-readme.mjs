@@ -6,7 +6,7 @@
 // Run from the repo root: node scripts/build-readme.mjs
 
 import { createHash } from 'node:crypto'
-import { mkdirSync, readFileSync, writeFileSync } from 'node:fs'
+import { mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 
 const OUT = 'assets/readme'
 const SITE = 'https://tuzkituan.dev'
@@ -49,7 +49,6 @@ const PROJECTS = [
     name: 'METROV Launcher',
     accent: '#203BA8',
     icon: 'assets/apps/metrov-icon.png',
-    shot: 'assets/apps/launcher.webp',
     tagline: 'A Metro-inspired Android home screen, rebuilt as live tiles.',
     tech: ['Flutter', 'Dart', 'Android'],
     href: `${SITE}/launcher`,
@@ -59,7 +58,6 @@ const PROJECTS = [
     kicker: 'Dial',
     name: 'METROV Dial',
     accent: '#1579AA',
-    shot: 'assets/apps/dial.webp',
     tagline: 'A tile-styled phone dialer that feels flat and fast.',
     tech: ['Flutter', 'Dart', 'Android telephony'],
     href: `${SITE}/dial`,
@@ -70,7 +68,6 @@ const PROJECTS = [
     name: 'METROV Navbar',
     accent: '#559614',
     icon: 'assets/apps/navbar-icon.png',
-    shot: 'assets/apps/navbar.webp',
     tagline: 'A Metro-style navigation bar for Android: back, Start, search.',
     tech: ['Flutter', 'Kotlin', 'Android accessibility'],
     href: `${SITE}/navbar`,
@@ -81,7 +78,6 @@ const PROJECTS = [
     name: 'FIMIE',
     accent: '#111111',
     icon: 'assets/apps/fimie-icon.png',
-    shot: 'assets/apps/fimie.webp',
     tagline: 'Give your photos the analog film look.',
     tech: ['Flutter', 'Dart', 'Android'],
     href: `${SITE}/fimie`,
@@ -92,7 +88,6 @@ const PROJECTS = [
     name: 'NightCap',
     accent: '#5C5FF0',
     icon: 'assets/apps/nightcap-icon.png',
-    shot: 'assets/apps/nightcap.webp',
     tagline:
       'A minimal, background-resilient sleep timer for Android media playback.',
     tech: ['Flutter', 'Dart', 'Android'],
@@ -431,54 +426,46 @@ ${outline(W, H, th)}`
   return svg(W, H, body)
 }
 
-/** A project in the lineup (portfolio ProjectCard): numbered accent chip and
-    kicker, the first screen with the icon over its edge, then the name,
-    tagline, chips and an explore link. */
+/** A project in the lineup, compact: the numbered accent chip and kicker
+    on the strip, then the icon beside the name, tagline and chips. */
 const CW = 500
-const SHOT_H = 300
-const CH = 44 + SHOT_H + 252
+const CH = 196
 function card(th, p, i) {
   const n = String(i + 1).padStart(2, '0')
-  const shotY = 44
-  const iconY = shotY + SHOT_H - 28
   const cut = p.name.lastIndexOf(' ')
   const name =
     cut < 0
       ? t('display', p.name)
       : `${t('display', p.name.slice(0, cut + 1))}<tspan fill="${th.appInk(p.accent)}">${t('display', p.name.slice(cut + 1))}</tspan>`
-  const shot = p.shot
-    ? `<image href="${dataUri(p.shot)}" width="${CW}" height="${(CW * 1600) / 720}" preserveAspectRatio="xMidYMin slice"/>`
-    : `<defs><pattern id="hatch" width="16" height="16" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="2.5" height="16" fill="${p.accent}"/></pattern></defs><rect width="${CW}" height="${SHOT_H}" fill="url(#hatch)" opacity=".35"/>`
   const icon = p.icon
-    ? `<image href="${dataUri(p.icon)}" x="22" y="${iconY + 2}" width="56" height="56"/>`
-    : `<text x="50" y="${iconY + 44}" class="wide" font-size="28" fill="#fff" text-anchor="middle">${t('wide', p.name[0])}</text>`
-  const tag = wrap(p.tagline, 16, 450)
-    .map((l, k) => `<tspan x="22" dy="${k ? 25 : 0}">${t('sans', l)}</tspan>`)
+    ? `<image href="${dataUri(p.icon)}" x="22" y="64" width="56" height="56"/>`
+    : `<text x="50" y="106" class="wide" font-size="28" fill="#fff" text-anchor="middle">${t('wide', p.name[0])}</text>`
+  const lines = wrap(p.tagline, 15, 385)
+  const tag = lines
+    .map((l, k) => `<tspan x="98" dy="${k ? 22 : 0}">${t('sans', l)}</tspan>`)
     .join('')
-  let tx = 22
+  let tx = 98
+  const chipY = 120 + lines.length * 22
   const chips = p.tech
     .map((s) => {
       const w = monoW(s, 10) + 12
-      const out = `<rect x="${tx + 0.5}" y="${CH - 84.5}" width="${w}" height="19" fill="none" stroke="${th.lineStrong}"/>${mono(tx + 6, CH - 71, s, th.muted, { size: 10 })}`
+      const out = `<rect x="${tx + 0.5}" y="${chipY + 0.5}" width="${w}" height="19" fill="none" stroke="${th.lineStrong}"/>${mono(tx + 6, chipY + 14, s, th.muted, { size: 10 })}`
       tx += w + 6
       return out
     })
     .join('')
-  const explore = `Explore ${p.name}`
   const body = `
 <rect width="${CW}" height="${CH}" fill="${th.page}"/>
 <rect x="22" y="13" width="${monoW(n, 12) + 10}" height="19" fill="${p.accent}"/>
 ${mono(27, 27, n, '#fff', { size: 12, bold: true })}
-${mono(CW - 22, 27, p.kicker, th.faint, { size: 12, anchor: 'end' })}
-<svg y="${shotY}" width="${CW}" height="${SHOT_H}" viewBox="0 0 ${CW} ${SHOT_H}"><rect width="${CW}" height="${SHOT_H}" fill="${th.sunken}"/>${shot}</svg>
-<path d="M0 ${shotY + 0.5}H${CW}M0 ${shotY + SHOT_H + 0.5}H${CW}" stroke="${th.frame}"/>
-<rect x="21" y="${iconY + 1}" width="58" height="58" fill="${p.accent}" stroke="${th.page}" stroke-width="2"/>
+${mono(CW - 42, 27, p.kicker, th.faint, { size: 12, anchor: 'end' })}
+${arrow(CW - 31, 28, th.muted, 9)}
+<path d="M0 44.5H${CW}" stroke="${th.frame}"/>
+<rect x="22" y="64" width="56" height="56" fill="${p.accent}"/>
 ${icon}
-<text x="22" y="${shotY + SHOT_H + 76}" class="display" font-size="28" letter-spacing="-.9" fill="${th.strong}">${name}</text>
-<text y="${shotY + SHOT_H + 110}" class="sans" font-size="16" fill="${th.muted}">${tag}</text>
+<text x="98" y="88" class="display" font-size="24" letter-spacing="-.8" fill="${th.strong}">${name}</text>
+<text y="114" class="sans" font-size="15" fill="${th.muted}">${tag}</text>
 ${chips}
-${mono(22, CH - 28, explore, th.muted, { size: 12 })}
-${arrow(22 + monoW(explore, 12) + 4, CH - 28, th.muted, 8)}
 ${outline(CW, CH, th)}`
   return svg(CW, CH, body)
 }
@@ -531,17 +518,19 @@ for (const [mode, th] of Object.entries(THEMES)) {
 }
 
 const faces = await fontFaces()
+// raw.githubusercontent.com caches each file for 5 minutes per edge, and
+// GitHub's raw redirect drops query strings, so every panel is written under
+// its content hash: a changed panel is a new file at a new URL.
+const file = {}
+rmSync(OUT, { recursive: true, force: true })
 mkdirSync(OUT, { recursive: true })
-// raw.githubusercontent.com caches each file for 5 minutes per edge, so the
-// README asks for every panel by its content hash: a changed panel is a new URL.
-const version = {}
 for (const [name, body] of Object.entries(panels)) {
   const used = Object.keys(FONTS).filter((k) => body.includes(`class="${k}"`))
-  const file = body.replace('%%FONTS%%', used.map((k) => faces[k]).join(''))
-  writeFileSync(`${OUT}/${name}.svg`, file)
-  version[name] = createHash('sha1').update(file).digest('hex').slice(0, 8)
+  const out = body.replace('%%FONTS%%', used.map((k) => faces[k]).join(''))
+  file[name] = `${OUT}/${name}.${createHash('sha1').update(out).digest('hex').slice(0, 8)}.svg`
+  writeFileSync(file[name], out)
 }
-const src = (name) => `${OUT}/${name}.svg?v=${version[name]}`
+const src = (name) => file[name]
 
 /** A themed image: the dark panel under GitHub's dark theme, light otherwise. */
 // One line: a line break inside an inline <a> splits the HTML in Markdown.
