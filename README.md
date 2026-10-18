@@ -5,18 +5,18 @@
 <a href="https://tuzkituan.dev/#projects"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/readme/projects-dark.a95c9973.svg"><img src="assets/readme/projects-light.8d0ed502.svg" width="100%" alt="Projects: the lineup"></picture></a>
 
 <p>
-<a href="https://tuzkituan.dev/launcher"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/readme/card-launcher-dark.ac7009fa.svg"><img src="assets/readme/card-launcher-light.080c8071.svg" width="49.6%" alt="METROV Launcher: A Metro-inspired Android home screen, rebuilt as live tiles."></picture></a>
-<a href="https://tuzkituan.dev/dial"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/readme/card-dial-dark.34470eb3.svg"><img src="assets/readme/card-dial-light.a837005e.svg" width="49.6%" alt="METROV Dial: A tile-styled phone dialer that feels flat and fast."></picture></a>
+<a href="https://tuzkituan.dev/launcher"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/readme/card-launcher-dark.3e65d681.svg"><img src="assets/readme/card-launcher-light.511aed64.svg" width="49.7%" alt="METROV Launcher: A Metro-inspired Android home screen, rebuilt as live tiles."></picture></a>
+<a href="https://tuzkituan.dev/dial"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/readme/card-dial-dark.84ec0a1b.svg"><img src="assets/readme/card-dial-light.dcc0e920.svg" width="49.7%" alt="METROV Dial: A tile-styled phone dialer that feels flat and fast."></picture></a>
 </p>
 
 <p>
-<a href="https://tuzkituan.dev/navbar"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/readme/card-navbar-dark.967c8ada.svg"><img src="assets/readme/card-navbar-light.bab7d211.svg" width="49.6%" alt="METROV Navbar: A Metro-style navigation bar for Android: back, Start, search."></picture></a>
-<a href="https://tuzkituan.dev/fimie"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/readme/card-fimie-dark.3871b3a4.svg"><img src="assets/readme/card-fimie-light.5f41e9d5.svg" width="49.6%" alt="FIMIE: Give your photos the analog film look."></picture></a>
+<a href="https://tuzkituan.dev/navbar"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/readme/card-navbar-dark.0095dcce.svg"><img src="assets/readme/card-navbar-light.76c800a5.svg" width="49.7%" alt="METROV Navbar: A Metro-style navigation bar for Android: back, Start, search."></picture></a>
+<a href="https://tuzkituan.dev/fimie"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/readme/card-fimie-dark.4da89fe8.svg"><img src="assets/readme/card-fimie-light.c11fd05d.svg" width="49.7%" alt="FIMIE: Give your photos the analog film look."></picture></a>
 </p>
 
 <p>
-<a href="https://tuzkituan.dev/nightcap"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/readme/card-nightcap-dark.27d6d071.svg"><img src="assets/readme/card-nightcap-light.8e078cfd.svg" width="49.6%" alt="NightCap: A minimal, background-resilient sleep timer for Android media playback."></picture></a>
-<a href="https://github.com/tuzkituan/zeni-ui"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/readme/card-zeni-ui-dark.edccb0a5.svg"><img src="assets/readme/card-zeni-ui-light.a8dffb76.svg" width="49.6%" alt="ZENI-UI: A React + TypeScript component library."></picture></a>
+<a href="https://tuzkituan.dev/nightcap"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/readme/card-nightcap-dark.37d398ad.svg"><img src="assets/readme/card-nightcap-light.57e0a0fd.svg" width="49.7%" alt="NightCap: A minimal, background-resilient sleep timer for Android media playback."></picture></a>
+<a href="https://github.com/tuzkituan/zeni-ui"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/readme/card-zeni-ui-dark.0d1345ae.svg"><img src="assets/readme/card-zeni-ui-light.f757e1f1.svg" width="49.7%" alt="ZENI-UI: A React + TypeScript component library."></picture></a>
 </p>
 
 <a href="https://tuzkituan.dev/#press"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/readme/press-dark.f763aefc.svg"><img src="assets/readme/press-light.8fb41742.svg" width="100%" alt="Press: as seen on"></picture></a>

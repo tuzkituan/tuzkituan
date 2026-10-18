@@ -432,6 +432,9 @@ ${outline(W, H, th)}`
 /** A project in the lineup, compact: the numbered accent chip and kicker
     on the strip, then the icon beside the name, tagline and chips. */
 const CW = 500
+// Half the gap between the two cards of a row: a transparent gutter on each
+// card's inner side, since Markdown puts only a space between two images.
+const GUTTER = 11
 const TX = PAD + 76 // the text column, right of the icon
 const CH = 212
 function card(th, p, i) {
@@ -471,7 +474,8 @@ ${icon}
 <text y="114" class="sans" font-size="14" fill="${th.muted}">${tag}</text>
 ${chips}
 ${outline(CW, CH, th)}`
-  return svg(CW, CH, body)
+  const dx = i % 2 ? GUTTER : 0
+  return svg(CW + GUTTER, CH, `<g transform="translate(${dx} 0)">${body}</g>`)
 }
 
 /** A contact tile: the numbered host up top, the name large below. */
@@ -546,7 +550,7 @@ const rows = []
 for (let i = 0; i < PROJECTS.length; i += 2)
   rows.push(
     `<p>\n${PROJECTS.slice(i, i + 2)
-      .map((p) => link(p.href, pic(`card-${p.id}`, `${p.name}: ${p.tagline}`, '49.6%')))
+      .map((p) => link(p.href, pic(`card-${p.id}`, `${p.name}: ${p.tagline}`, '49.7%')))
       .join('\n')}\n</p>`,
   )
 
