@@ -5,6 +5,7 @@
 //
 // Run from the repo root: node scripts/build-readme.mjs
 
+import { createHash } from 'node:crypto'
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 
 const OUT = 'assets/readme'
@@ -531,15 +532,21 @@ for (const [mode, th] of Object.entries(THEMES)) {
 
 const faces = await fontFaces()
 mkdirSync(OUT, { recursive: true })
+// raw.githubusercontent.com caches each file for 5 minutes per edge, so the
+// README asks for every panel by its content hash: a changed panel is a new URL.
+const version = {}
 for (const [name, body] of Object.entries(panels)) {
   const used = Object.keys(FONTS).filter((k) => body.includes(`class="${k}"`))
-  writeFileSync(`${OUT}/${name}.svg`, body.replace('%%FONTS%%', used.map((k) => faces[k]).join('')))
+  const file = body.replace('%%FONTS%%', used.map((k) => faces[k]).join(''))
+  writeFileSync(`${OUT}/${name}.svg`, file)
+  version[name] = createHash('sha1').update(file).digest('hex').slice(0, 8)
 }
+const src = (name) => `${OUT}/${name}.svg?v=${version[name]}`
 
 /** A themed image: the dark panel under GitHub's dark theme, light otherwise. */
 // One line: a line break inside an inline <a> splits the HTML in Markdown.
 const pic = (name, alt, width) =>
-  `<picture><source media="(prefers-color-scheme: dark)" srcset="${OUT}/${name}-dark.svg"><img src="${OUT}/${name}-light.svg" width="${width}" alt="${esc(alt)}"></picture>`
+  `<picture><source media="(prefers-color-scheme: dark)" srcset="${src(`${name}-dark`)}"><img src="${src(`${name}-light`)}" width="${width}" alt="${esc(alt)}"></picture>`
 const link = (href, inner) => `<a href="${href}">${inner}</a>`
 
 const rows = []
