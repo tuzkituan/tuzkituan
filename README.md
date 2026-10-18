@@ -25,23 +25,23 @@ tuzkituan@github:~$ ls ~/apps
 
 <table>
   <tr>
-    <td width="100%"><img src="assets/apps/metrov-icon.png" width="40" align="left" hspace="10" alt="METROV Launcher icon" /><b>METROV Launcher</b><br /><sub>A Metro-inspired Android home screen, rebuilt as live tiles.</sub></td>
+    <td width="1000"><img src="assets/apps/metrov-icon.png" width="40" align="left" hspace="10" alt="METROV Launcher icon" /><b>METROV Launcher</b><br /><sub>A Metro-inspired Android home screen, rebuilt as live tiles.</sub></td>
     <td><a href="https://play.google.com/store/apps/details?id=com.tuzkituan.metrov">Google Play</a>&nbsp;·&nbsp;<a href="https://tuzkituan.dev/launcher">site</a></td>
   </tr>
   <tr>
-    <td width="100%"><img src="assets/apps/metrov-icon.png" width="40" align="left" hspace="10" alt="METROV Dial icon" /><b>METROV Dial</b><br /><sub>A tile-styled phone dialer that feels flat and fast.</sub></td>
+    <td width="1000"><img src="assets/apps/metrov-icon.png" width="40" align="left" hspace="10" alt="METROV Dial icon" /><b>METROV Dial</b><br /><sub>A tile-styled phone dialer that feels flat and fast.</sub></td>
     <td><a href="https://urlshortener.at/MhRSP">Google Play</a>&nbsp;·&nbsp;<a href="https://tuzkituan.dev/dial">site</a></td>
   </tr>
   <tr>
-    <td width="100%"><img src="assets/apps/navbar-icon.png" width="40" align="left" hspace="10" alt="METROV Navbar icon" /><b>METROV Navbar</b><br /><sub>A Metro-style navigation bar for Android: back, Start, search.</sub></td>
+    <td width="1000"><img src="assets/apps/navbar-icon.png" width="40" align="left" hspace="10" alt="METROV Navbar icon" /><b>METROV Navbar</b><br /><sub>A Metro-style navigation bar for Android: back, Start, search.</sub></td>
     <td><a href="https://urlshortener.at/VJwPy">Google Play</a>&nbsp;·&nbsp;<a href="https://tuzkituan.dev/navbar">site</a></td>
   </tr>
   <tr>
-    <td width="100%"><img src="assets/apps/fimie-icon.png" width="40" align="left" hspace="10" alt="FIMIE icon" /><b>FIMIE</b><br /><sub>A film photo editor: give your photos the analog film look.</sub></td>
+    <td width="1000"><img src="assets/apps/fimie-icon.png" width="40" align="left" hspace="10" alt="FIMIE icon" /><b>FIMIE</b><br /><sub>A film photo editor: give your photos the analog film look.</sub></td>
     <td><a href="https://urlshortener.at/9IH3f">APK</a>&nbsp;·&nbsp;<a href="https://tuzkituan.dev/fimie">site</a></td>
   </tr>
   <tr>
-    <td width="100%"><img src="assets/apps/nightcap-icon.png" width="40" align="left" hspace="10" alt="NightCap icon" /><b>NightCap</b><br /><sub>A minimal sleep timer that pauses any media app. Open source.</sub></td>
+    <td width="1000"><img src="assets/apps/nightcap-icon.png" width="40" align="left" hspace="10" alt="NightCap icon" /><b>NightCap</b><br /><sub>A minimal sleep timer that pauses any media app. Open source.</sub></td>
     <td><a href="https://urlshortener.at/kpL40">APK</a>&nbsp;·&nbsp;<a href="https://github.com/tuzkituan/nightcap">GitHub</a>&nbsp;·&nbsp;<a href="https://tuzkituan.dev/nightcap">site</a></td>
   </tr>
 </table>
