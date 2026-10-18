@@ -281,8 +281,10 @@ const STYLE = `
 const outline = (w, h, th) =>
   `<rect x=".5" y=".5" width="${w - 1}" height="${h - 1}" fill="none" stroke="${th.frame}"/>`
 
-function svg(w, h, body, extraStyle = '') {
-  return `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}">
+/** An SVG panel, drawn in a w x h box and sized `shown` px wide: a <picture>
+    with no width attribute shows it at that size (shrunk to fit if wider). */
+function svg(w, h, body, extraStyle = '', shown = w) {
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${shown}" height="${(h * shown) / w}" viewBox="0 0 ${w} ${h}">
 <style>%%FONTS%%${STYLE}${extraStyle}</style>
 ${body}
 </svg>
@@ -292,6 +294,16 @@ ${body}
 /* ---- Panels ---- */
 
 const W = 1000
+
+/* The cards and contact tiles reflow by window width. A README can't use CSS,
+   but a <picture> picks its image by media query, and an image without a width
+   attribute shows at its own size. From 1280px up GitHub's profile README is
+   846px wide, so the wide images are sized to fit two cards (four tiles) to a
+   row exactly; below that the narrow images are oversized, so the README
+   shrinks each to its full width, one to a row. */
+const WIDE = 1280
+const README_W = 846
+const FULL = 1000 // a size wider than any narrow README, shrunk to fit
 // The left and right inset of every panel. Panels all render at about the
 // same scale (a 1000 wide panel at 100%, a 500 card at half), so one value
 // lines their content up.
@@ -432,12 +444,15 @@ ${outline(W, H, th)}`
 /** A project in the lineup, compact: the numbered accent chip and kicker
     on the strip, then the icon beside the name, tagline and chips. */
 const CW = 500
-// Half the gap between the two cards of a row: a transparent gutter on each
-// card's inner side, since Markdown puts only a space between two images.
-const GUTTER = 11
+// Half the gap between the two cards of a row, as a transparent gutter on
+// each card's inner side. The images sit with no space between them: a space
+// is a fixed few pixels, which on a phone pushes the second card to a new line.
+const GUTTER = 13
+// The gap below each card, as a gutter: the cards share one line-wrapped paragraph.
+const CARD_ROW = 20
 const TX = PAD + 76 // the text column, right of the icon
 const CH = 212
-function card(th, p, i) {
+function card(th, p, i, size) {
   const n = String(i + 1).padStart(2, '0')
   const cut = p.name.lastIndexOf(' ')
   const name =
@@ -474,8 +489,9 @@ ${icon}
 <text y="114" class="sans" font-size="14" fill="${th.muted}">${tag}</text>
 ${chips}
 ${outline(CW, CH, th)}`
+  if (size === 'narrow') return svg(CW, CH + CARD_ROW, body, '', FULL)
   const dx = i % 2 ? GUTTER : 0
-  return svg(CW + GUTTER, CH, `<g transform="translate(${dx} 0)">${body}</g>`)
+  return svg(CW + GUTTER, CH + CARD_ROW, `<g transform="translate(${dx} 0)">${body}</g>`, '', README_W / 2)
 }
 
 /** A contact tile: the numbered host up top, the name large below. */
@@ -483,16 +499,21 @@ const TW = 250
 const TH = 150
 // The gap between tiles, as gutters: tile i takes i/4 of a gap on its left
 // and (3 - i)/4 on its right, so all four stay the same width.
-const TILE_GAP = 24
-function tile(th, c, i) {
+const TILE_GAP = 28
+const TILE_ROW = 16
+function tile(th, c, i, size) {
   const host = c.host.length > 18 ? 'email' : c.host
+  const label = `${String(i + 1).padStart(2, '0')} · ${host}`
+  // Narrow: one wide, short tile to a row, so four don't fill a screen.
+  const [w, h, nameY, size_] = size === 'narrow' ? [500, 96, 74, 26] : [TW, TH, TH - 28, 24]
   const body = `
-<rect width="${TW}" height="${TH}" fill="${th.page}"/>
-${mono(PAD, 32, `${String(i + 1).padStart(2, '0')} · ${host}`, th.faint, { size: 10 })}
-${arrow(TW - PAD - 9, 34, th.muted, 9)}
-<text x="${PAD}" y="${TH - 28}" class="display" font-size="24" letter-spacing="-1" fill="${th.strong}">${t('display', c.label)}</text>
-${outline(TW, TH, th)}`
-  return svg(TW + (TILE_GAP * 3) / 4, TH, `<g transform="translate(${(TILE_GAP * i) / 4} 0)">${body}</g>`)
+<rect width="${w}" height="${h}" fill="${th.page}"/>
+${mono(PAD, 32, label, th.faint, { size: 10 })}
+${arrow(w - PAD - 9, 34, th.muted, 9)}
+<text x="${PAD}" y="${nameY}" class="display" font-size="${size_}" letter-spacing="-1" fill="${th.strong}">${t('display', c.label)}</text>
+${outline(w, h, th)}`
+  if (size === 'narrow') return svg(w, h + TILE_ROW, body, '', FULL)
+  return svg(w + (TILE_GAP * 3) / 4, h, `<g transform="translate(${(TILE_GAP * i) / 4} 0)">${body}</g>`, '', README_W / 4)
 }
 
 /** The coffee strip at the very bottom. */
@@ -521,10 +542,12 @@ for (const [mode, th] of Object.entries(THEMES)) {
     [['The '], ['lineup', true], ['.']],
     'Android apps in the Metro style, a React component library, and the work around them.',
   )
-  PROJECTS.forEach((p, i) => (panels[`card-${p.id}-${mode}`] = card(th, p, i)))
+  for (const size of ['wide', 'narrow']) {
+    PROJECTS.forEach((p, i) => (panels[`card-${p.id}-${size}-${mode}`] = card(th, p, i, size)))
+    CONTACTS.forEach((c, i) => (panels[`contact-${i + 1}-${size}-${mode}`] = tile(th, c, i, size)))
+  }
   panels[`press-${mode}`] = section(th, 3, 'Press', `${PRESS.length} articles`, [['As seen '], ['on', true], ['.']])
   panels[`contact-${mode}`] = section(th, 4, 'Contact', 'Email, GitHub, LinkedIn', [["Let's "], ['talk', true], ['.']])
-  CONTACTS.forEach((c, i) => (panels[`contact-${i + 1}-${mode}`] = tile(th, c, i)))
   panels[`coffee-${mode}`] = coffee(th)
 }
 
@@ -549,13 +572,14 @@ const pic = (name, alt, width) =>
   `<picture><source media="(prefers-color-scheme: dark)" srcset="${src(`${name}-dark`)}"><img src="${src(`${name}-light`)}" width="${width}" alt="${esc(alt)}"></picture>`
 const link = (href, inner) => `<a href="${href}">${inner}</a>`
 
-const rows = []
-for (let i = 0; i < PROJECTS.length; i += 2)
-  rows.push(
-    `<p>\n${PROJECTS.slice(i, i + 2)
-      .map((p) => link(p.href, pic(`card-${p.id}`, `${p.name}: ${p.tagline}`, '49.7%')))
-      .join('\n')}\n</p>`,
-  )
+/** A card or tile: the wide image two (four) to a row on a wide window, the
+    narrow one full width otherwise, each in the viewer's theme. */
+const reflow = (name, alt) =>
+  `<picture><source media="(min-width: ${WIDE}px) and (prefers-color-scheme: dark)" srcset="${src(`${name}-wide-dark`)}"><source media="(min-width: ${WIDE}px)" srcset="${src(`${name}-wide-light`)}"><source media="(prefers-color-scheme: dark)" srcset="${src(`${name}-narrow-dark`)}"><img src="${src(`${name}-narrow-light`)}" alt="${esc(alt)}"></picture>`
+
+// One paragraph each, with no space between the images, so they wrap by width.
+const cards = `<p>${PROJECTS.map((p) => link(p.href, reflow(`card-${p.id}`, `${p.name}: ${p.tagline}`))).join('')}</p>`
+const tiles = `<p>${CONTACTS.map((c, i) => link(c.href, reflow(`contact-${i + 1}`, `${c.label}: ${c.host}`))).join('')}</p>`
 
 const readme = `<!-- Generated by scripts/build-readme.mjs. Edit the script, then run: node scripts/build-readme.mjs -->
 
@@ -563,7 +587,7 @@ ${link(SITE, pic('hero', `${PROFILE.name} (${PROFILE.nickname}): ${PROFILE.role}
 
 ${link(`${SITE}/#projects`, pic('projects', 'Projects: the lineup', '100%'))}
 
-${rows.join('\n\n')}
+${cards}
 
 ${link(`${SITE}/#press`, pic('press', 'Press: as seen on', '100%'))}
 
@@ -571,9 +595,7 @@ ${PRESS.map(([outlet, title, href]) => `- **${outlet}** · [${title}](${href})`)
 
 ${link(`${SITE}/#contact`, pic('contact', "Contact: let's talk", '100%'))}
 
-<p>
-${CONTACTS.map((c, i) => link(c.href, pic(`contact-${i + 1}`, `${c.label}: ${c.host}`, '24.6%'))).join('\n')}
-</p>
+${tiles}
 
 ${link(PAYPAL, pic('coffee', 'Buy me a coffee on PayPal', '100%'))}
 `
