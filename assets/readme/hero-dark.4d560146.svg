@@ -17,18 +17,18 @@
 
 <rect width="1000" height="604" fill="#050506"/>
 <rect y="604" width="1000" height="184" fill="#121316"/>
-<text x="48" y="27" class="mono" font-size="13"><tspan fill="rgba(255,255,255,.55)">01 /</tspan><tspan fill="#ffffff"> OVERVIEW</tspan></text>
-<text x="952" y="27" class="mono" font-size="12" fill="rgba(255,255,255,.55)" text-anchor="end">FRONTEND &amp; MOBILE DEVELOPER · HO CHI MINH CITY, VIETNAM</text>
+<text x="32" y="27" class="mono" font-size="13"><tspan fill="rgba(255,255,255,.55)">01 /</tspan><tspan fill="#ffffff"> OVERVIEW</tspan></text>
+<text x="968" y="27" class="mono" font-size="12" fill="rgba(255,255,255,.55)" text-anchor="end">FRONTEND &amp; MOBILE DEVELOPER · HO CHI MINH CITY, VIETNAM</text>
 <path d="M0 43.5H1000" stroke="rgba(242,241,238,.24)"/>
 <svg y="44" width="1000" height="520" viewBox="0 0 1000 520">
   <defs><radialGradient id="fade" cx="50%" cy="50%" r="60%"><stop offset="40%" stop-color="#fff"/><stop offset="100%" stop-color="#fff" stop-opacity="0"/></radialGradient>
   <mask id="m"><rect width="1000" height="520" fill="url(#fade)"/></mask></defs>
   <g mask="url(#m)"><g class="run"><rect x="96.5" y="0.5" width="95" height="95" fill="rgba(255,255,255,.07)" class="cell" style="animation-delay:0s"/><rect x="672.5" y="96.5" width="95" height="95" fill="rgba(255,255,255,.07)" class="cell" style="animation-delay:-6s"/><rect x="288.5" y="288.5" width="95" height="95" fill="rgba(255,255,255,.07)" class="cell" style="animation-delay:-12s"/><rect x="864.5" y="192.5" width="95" height="95" fill="rgba(255,255,255,.07)" class="cell" style="animation-delay:-18s"/><rect x="480.5" y="384.5" width="95" height="95" fill="rgba(255,255,255,.07)" class="cell" style="animation-delay:-3s"/><rect x="0.5" y="288.5" width="95" height="95" fill="rgba(255,255,255,.07)" class="cell" style="animation-delay:-15s"/><path d="M-96 -96V616M0 -96V616M96 -96V616M192 -96V616M288 -96V616M384 -96V616M480 -96V616M576 -96V616M672 -96V616M768 -96V616M864 -96V616M960 -96V616M1056 -96V616M-96 -96H1096M-96 0H1096M-96 96H1096M-96 192H1096M-96 288H1096M-96 384H1096M-96 480H1096M-96 576H1096" stroke="rgba(255,255,255,.14)" stroke-opacity=".55"/></g></g>
-  <text x="48" y="64" class="mono" font-size="13" fill="rgba(255,255,255,.55)" text-anchor="start">HI, I'M TUAN NGUYEN</text>
-  <text x="48" y="196" class="wide" font-size="122" textLength="904" lengthAdjust="spacingAndGlyphs" fill="#ffffff">TUZKI<tspan fill="#b2bbe0">TUAN</tspan></text>
-  <path d="M48 240H952" stroke="rgba(255,255,255,.14)"/>
-  <text x="48" y="308" font-size="46" fill="#ffffff" letter-spacing="-1.38"><tspan class="display">Tile-first apps.</tspan></text>
-  <text x="48" y="366" font-size="46" fill="#ffffff" letter-spacing="-1.38"><tspan class="serif" font-size="49.68000000000001">Clean web UIs.</tspan></text>
+  <text x="32" y="64" class="mono" font-size="13" fill="rgba(255,255,255,.55)" text-anchor="start">HI, I'M TUAN NGUYEN</text>
+  <text x="32" y="196" class="wide" font-size="122" textLength="936" lengthAdjust="spacingAndGlyphs" fill="#ffffff">TUZKI<tspan fill="#b2bbe0">TUAN</tspan></text>
+  <path d="M32 240H968" stroke="rgba(255,255,255,.14)"/>
+  <text x="32" y="308" font-size="46" fill="#ffffff" letter-spacing="-1.38"><tspan class="display">Tile-first apps.</tspan></text>
+  <text x="32" y="366" font-size="46" fill="#ffffff" letter-spacing="-1.38"><tspan class="serif" font-size="49.68000000000001">Clean web UIs.</tspan></text>
   <text y="292" class="sans" font-size="16" fill="rgba(255,255,255,.78)"><tspan x="560" dy="0">Frontend and mobile developer in Ho Chi Minh</tspan><tspan x="560" dy="26">City, working in React, TypeScript and Flutter.</tspan><tspan x="560" dy="26">I ship web apps and Android apps end to end,</tspan><tspan x="560" dy="26">including METROV, an Android launcher with 50K+</tspan><tspan x="560" dy="26">downloads.</tspan></text>
   <rect x="560.5" y="430.5" width="190" height="38" fill="none" stroke="#ffffff"/>
   <text x="578" y="454" class="mono" font-size="12" fill="#ffffff" text-anchor="start">TUZKITUAN.DEV</text>

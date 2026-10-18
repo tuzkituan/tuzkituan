@@ -292,7 +292,10 @@ ${body}
 /* ---- Panels ---- */
 
 const W = 1000
-const PAD = 48
+// The left and right inset of every panel. Panels all render at about the
+// same scale (a 1000 wide panel at 100%, a 500 card at half), so one value
+// lines their content up.
+const PAD = 32
 
 /** The site's mascot (portfolio Cat.tsx): tail swaying, blinking now and then. */
 function cat(x, y, h, th) {
@@ -364,9 +367,9 @@ function hero(th) {
     const x = (i % 3) * (W / 3)
     const y = statsTop + Math.floor(i / 3) * CELL_H
     const star = s.star
-      ? `<path transform="translate(${x + 32 + s.value.length * 23} ${y + 28}) scale(1.6)" d="M10 0l2.9 6.6 7.1.6-5.4 4.7 1.6 7L10 15.3 3.8 19l1.6-7L0 7.2l7.1-.6z" fill="${th.accentInk}"/>`
+      ? `<path transform="translate(${x + PAD + s.value.length * 23} ${y + 28}) scale(1.6)" d="M10 0l2.9 6.6 7.1.6-5.4 4.7 1.6 7L10 15.3 3.8 19l1.6-7L0 7.2l7.1-.6z" fill="${th.accentInk}"/>`
       : ''
-    return `<text x="${x + 32}" y="${y + 56}" class="display" font-size="40" letter-spacing="-1.4" fill="${th.accentInk}">${t('display', s.value)}</text>${star}${mono(x + 32, y + 78, s.label, th.faint, { size: 12 })}`
+    return `<text x="${x + PAD}" y="${y + 56}" class="display" font-size="40" letter-spacing="-1.4" fill="${th.accentInk}">${t('display', s.value)}</text>${star}${mono(x + PAD, y + 78, s.label, th.faint, { size: 12 })}`
   }).join('')
   const statLines = `<path d="M0 ${statsTop}H${W}M0 ${statsTop + CELL_H}H${W}M${W / 3} ${statsTop}V${H}M${(2 * W) / 3} ${statsTop}V${H}" stroke="${th.frame}"/>`
 
@@ -429,7 +432,8 @@ ${outline(W, H, th)}`
 /** A project in the lineup, compact: the numbered accent chip and kicker
     on the strip, then the icon beside the name, tagline and chips. */
 const CW = 500
-const CH = 196
+const TX = PAD + 76 // the text column, right of the icon
+const CH = 212
 function card(th, p, i) {
   const n = String(i + 1).padStart(2, '0')
   const cut = p.name.lastIndexOf(' ')
@@ -438,14 +442,14 @@ function card(th, p, i) {
       ? t('display', p.name)
       : `${t('display', p.name.slice(0, cut + 1))}<tspan fill="${th.appInk(p.accent)}">${t('display', p.name.slice(cut + 1))}</tspan>`
   const icon = p.icon
-    ? `<image href="${dataUri(p.icon)}" x="22" y="64" width="56" height="56"/>`
-    : `<text x="50" y="106" class="wide" font-size="28" fill="#fff" text-anchor="middle">${t('wide', p.name[0])}</text>`
-  const lines = wrap(p.tagline, 15, 385)
+    ? `<image href="${dataUri(p.icon)}" x="${PAD}" y="64" width="56" height="56"/>`
+    : `<text x="${PAD + 28}" y="106" class="wide" font-size="28" fill="#fff" text-anchor="middle">${t('wide', p.name[0])}</text>`
+  const lines = wrap(p.tagline, 14, CW - TX - PAD + 30)
   const tag = lines
-    .map((l, k) => `<tspan x="98" dy="${k ? 22 : 0}">${t('sans', l)}</tspan>`)
+    .map((l, k) => `<tspan x="${TX}" dy="${k ? 22 : 0}">${t('sans', l)}</tspan>`)
     .join('')
-  let tx = 98
-  const chipY = 120 + lines.length * 22
+  let tx = TX
+  const chipY = CH - 28 - 19 // pinned, so the tags line up across a row
   const chips = p.tech
     .map((s) => {
       const w = monoW(s, 10) + 12
@@ -456,15 +460,15 @@ function card(th, p, i) {
     .join('')
   const body = `
 <rect width="${CW}" height="${CH}" fill="${th.page}"/>
-<rect x="22" y="13" width="${monoW(n, 12) + 10}" height="19" fill="${p.accent}"/>
-${mono(27, 27, n, '#fff', { size: 12, bold: true })}
-${mono(CW - 42, 27, p.kicker, th.faint, { size: 12, anchor: 'end' })}
-${arrow(CW - 31, 28, th.muted, 9)}
+<rect x="${PAD}" y="13" width="${monoW(n, 12) + 10}" height="19" fill="${p.accent}"/>
+${mono(PAD + 5, 27, n, '#fff', { size: 12, bold: true })}
+${mono(CW - PAD - 20, 27, p.kicker, th.faint, { size: 12, anchor: 'end' })}
+${arrow(CW - PAD - 9, 28, th.muted, 9)}
 <path d="M0 44.5H${CW}" stroke="${th.frame}"/>
-<rect x="22" y="64" width="56" height="56" fill="${p.accent}"/>
+<rect x="${PAD}" y="64" width="56" height="56" fill="${p.accent}"/>
 ${icon}
-<text x="98" y="88" class="display" font-size="24" letter-spacing="-.8" fill="${th.strong}">${name}</text>
-<text y="114" class="sans" font-size="15" fill="${th.muted}">${tag}</text>
+<text x="${TX}" y="88" class="display" font-size="24" letter-spacing="-.8" fill="${th.strong}">${name}</text>
+<text y="114" class="sans" font-size="14" fill="${th.muted}">${tag}</text>
 ${chips}
 ${outline(CW, CH, th)}`
   return svg(CW, CH, body)
@@ -477,9 +481,9 @@ function tile(th, c, i) {
   const host = c.host.length > 18 ? 'email' : c.host
   const body = `
 <rect width="${TW}" height="${TH}" fill="${th.page}"/>
-${mono(20, 32, `${String(i + 1).padStart(2, '0')} · ${host}`, th.faint, { size: 11 })}
-${arrow(TW - 30, 34, th.muted, 9)}
-<text x="20" y="${TH - 28}" class="display" font-size="30" letter-spacing="-1" fill="${th.strong}">${t('display', c.label)}</text>
+${mono(PAD, 32, `${String(i + 1).padStart(2, '0')} · ${host}`, th.faint, { size: 10 })}
+${arrow(TW - PAD - 9, 34, th.muted, 9)}
+<text x="${PAD}" y="${TH - 28}" class="display" font-size="24" letter-spacing="-1" fill="${th.strong}">${t('display', c.label)}</text>
 ${outline(TW, TH, th)}`
   return svg(TW, TH, body)
 }

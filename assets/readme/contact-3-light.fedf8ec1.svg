@@ -8,9 +8,9 @@
 .serif{font-family:tz-serif,Georgia,serif;letter-spacing:-.01em}
 @media (prefers-reduced-motion:reduce){*{animation:none!important}}</style>
 
-<rect width="250" height="150" fill="#121316"/>
-<text x="20" y="32" class="mono" font-size="11" fill="rgba(242,241,238,.38)" text-anchor="start">02 · LINKEDIN.COM</text>
-<path d="M220 34 l9 -9 M222.7 25 h6.3 v6.3" fill="none" stroke="rgba(242,241,238,.6)" stroke-width="1.4"/>
-<text x="20" y="122" class="display" font-size="30" letter-spacing="-1" fill="#ffffff">LinkedIn</text>
-<rect x=".5" y=".5" width="249" height="149" fill="none" stroke="rgba(242,241,238,.24)"/>
+<rect width="250" height="150" fill="#f2f1ee"/>
+<text x="32" y="32" class="mono" font-size="10" fill="rgba(16,16,20,.42)" text-anchor="start">03 · EMAIL</text>
+<path d="M209 34 l9 -9 M211.7 25 h6.3 v6.3" fill="none" stroke="rgba(16,16,20,.62)" stroke-width="1.4"/>
+<text x="32" y="122" class="display" font-size="24" letter-spacing="-1" fill="#000000">Email</text>
+<rect x=".5" y=".5" width="249" height="149" fill="none" stroke="rgba(16,16,20,.22)"/>
 </svg>
