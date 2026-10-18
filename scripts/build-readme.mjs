@@ -481,6 +481,9 @@ ${outline(CW, CH, th)}`
 /** A contact tile: the numbered host up top, the name large below. */
 const TW = 250
 const TH = 150
+// The gap between tiles, as gutters: tile i takes i/4 of a gap on its left
+// and (3 - i)/4 on its right, so all four stay the same width.
+const TILE_GAP = 24
 function tile(th, c, i) {
   const host = c.host.length > 18 ? 'email' : c.host
   const body = `
@@ -489,7 +492,7 @@ ${mono(PAD, 32, `${String(i + 1).padStart(2, '0')} · ${host}`, th.faint, { size
 ${arrow(TW - PAD - 9, 34, th.muted, 9)}
 <text x="${PAD}" y="${TH - 28}" class="display" font-size="24" letter-spacing="-1" fill="${th.strong}">${t('display', c.label)}</text>
 ${outline(TW, TH, th)}`
-  return svg(TW, TH, body)
+  return svg(TW + (TILE_GAP * 3) / 4, TH, `<g transform="translate(${(TILE_GAP * i) / 4} 0)">${body}</g>`)
 }
 
 /** The coffee strip at the very bottom. */

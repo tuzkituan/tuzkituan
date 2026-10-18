@@ -35,10 +35,10 @@
 <a href="https://tuzkituan.dev/#contact"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/readme/contact-dark.f65aa715.svg"><img src="assets/readme/contact-light.8e2153ca.svg" width="100%" alt="Contact: let's talk"></picture></a>
 
 <p>
-<a href="https://github.com/tuzkituan"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/readme/contact-1-dark.a06de5aa.svg"><img src="assets/readme/contact-1-light.88000650.svg" width="24.6%" alt="GitHub: github.com"></picture></a>
-<a href="https://www.linkedin.com/in/ngoctuanitpy/"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/readme/contact-2-dark.34609e8b.svg"><img src="assets/readme/contact-2-light.fd5e0a41.svg" width="24.6%" alt="LinkedIn: linkedin.com"></picture></a>
-<a href="mailto:tuannguyenitpy@gmail.com"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/readme/contact-3-dark.628640cb.svg"><img src="assets/readme/contact-3-light.fedf8ec1.svg" width="24.6%" alt="Email: tuannguyenitpy@gmail.com"></picture></a>
-<a href="https://play.google.com/store/apps/developer?id=tuzkituan"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/readme/contact-4-dark.f73f2cd2.svg"><img src="assets/readme/contact-4-light.ba455f89.svg" width="24.6%" alt="Google Play: play.google.com"></picture></a>
+<a href="https://github.com/tuzkituan"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/readme/contact-1-dark.b69f5209.svg"><img src="assets/readme/contact-1-light.7a4158b7.svg" width="24.6%" alt="GitHub: github.com"></picture></a>
+<a href="https://www.linkedin.com/in/ngoctuanitpy/"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/readme/contact-2-dark.1518b60f.svg"><img src="assets/readme/contact-2-light.7051d9b4.svg" width="24.6%" alt="LinkedIn: linkedin.com"></picture></a>
+<a href="mailto:tuannguyenitpy@gmail.com"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/readme/contact-3-dark.1827600d.svg"><img src="assets/readme/contact-3-light.f1cdb89a.svg" width="24.6%" alt="Email: tuannguyenitpy@gmail.com"></picture></a>
+<a href="https://play.google.com/store/apps/developer?id=tuzkituan"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/readme/contact-4-dark.e97c5cd1.svg"><img src="assets/readme/contact-4-light.e255d827.svg" width="24.6%" alt="Google Play: play.google.com"></picture></a>
 </p>
 
 <a href="https://www.paypal.me/lewisnguyen2804"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/readme/coffee-dark.4f575ff6.svg"><img src="assets/readme/coffee-light.a541bb97.svg" width="100%" alt="Buy me a coffee on PayPal"></picture></a>
