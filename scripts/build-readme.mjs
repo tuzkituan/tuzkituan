@@ -1,6 +1,6 @@
-// Builds README.md and its SVG panels in the style of tuzkituan.dev.
+// Builds README.md and its SVG panels as terminal windows.
 // GitHub strips CSS from READMEs, so every styled block is an SVG with its
-// fonts embedded (Google Fonts subsets of just the glyphs used), drawn once
+// font embedded (a Google Fonts subset of just the glyphs used), drawn once
 // per theme and swapped with <picture>.
 //
 // Run from the repo root: node scripts/build-readme.mjs
@@ -21,17 +21,6 @@ const PROFILE = {
   location: 'Ho Chi Minh City, Vietnam',
   bio: 'Frontend and mobile developer in Ho Chi Minh City, working in React, TypeScript and Flutter. I ship web apps and Android apps end to end, including METROV, an Android launcher with 50K+ downloads.',
 }
-
-const OUTLETS = [
-  'How-To Geek',
-  'MakeUseOf',
-  'Yahoo Tech',
-  'XDA Developers',
-  'Pocket-lint',
-  'Xataka Móvil',
-  'Quantrimang',
-  'Windows Central',
-]
 
 const STATS = [
   { value: '5+', label: 'years of experience' },
@@ -125,7 +114,7 @@ const CONTACTS = [
 ]
 const PAYPAL = 'https://www.paypal.me/lewisnguyen2804'
 
-/* ---- Tokens (from the portfolio's src/index.css) ---- */
+/* ---- Tokens ---- */
 
 const hex = (h) => [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16))
 const mix = (a, b, t) => {
@@ -135,60 +124,41 @@ const mix = (a, b, t) => {
 
 const THEMES = {
   dark: {
-    page: '#121316',
-    sunken: '#060607',
+    page: '#0d1014',
+    chrome: '#171a20',
     strong: '#ffffff',
-    ink: '#f2f1ee',
-    muted: 'rgba(242,241,238,.6)',
-    faint: 'rgba(242,241,238,.38)',
-    line: 'rgba(242,241,238,.15)',
-    lineStrong: 'rgba(242,241,238,.4)',
-    frame: 'rgba(242,241,238,.24)',
-    // The home hero: a near-black band inked in white.
-    band: '#050506',
-    bandStrong: '#ffffff',
-    bandMuted: 'rgba(255,255,255,.78)',
-    bandFaint: 'rgba(255,255,255,.55)',
-    bandLine: 'rgba(255,255,255,.14)',
-    bandCell: 'rgba(255,255,255,.07)',
-    accentInk: mix(ACCENT, '#ffffff', 0.35),
+    ink: '#d8dbe0',
+    muted: 'rgba(216,219,224,.66)',
+    faint: 'rgba(216,219,224,.42)',
+    frame: 'rgba(255,255,255,.14)',
+    green: '#7ee787',
+    blue: '#79c0ff',
+    yellow: '#e3b341',
     appInk: (c) => mix(c, '#ffffff', 0.6),
     catRim: 'rgba(255,255,255,.3)',
   },
   light: {
-    page: '#f2f1ee',
-    sunken: '#e9e8e4',
+    page: '#fbfbf9',
+    chrome: '#ecebe7',
     strong: '#000000',
-    ink: '#101014',
-    muted: 'rgba(16,16,20,.62)',
-    faint: 'rgba(16,16,20,.42)',
-    line: 'rgba(16,16,20,.16)',
-    lineStrong: 'rgba(16,16,20,.4)',
-    frame: 'rgba(16,16,20,.22)',
-    band: '#e6e5e1',
-    bandStrong: '#000000',
-    bandMuted: 'rgba(16,16,20,.62)',
-    bandFaint: 'rgba(16,16,20,.42)',
-    bandLine: 'rgba(16,16,20,.13)',
-    bandCell: 'rgba(36,61,166,.12)',
-    accentInk: mix(ACCENT, '#000000', 0.78),
+    ink: '#24292f',
+    muted: 'rgba(36,41,47,.68)',
+    faint: 'rgba(36,41,47,.46)',
+    frame: 'rgba(16,16,20,.18)',
+    green: '#1a7f37',
+    blue: mix(ACCENT, '#000000', 0.85),
+    yellow: '#9a6700',
     appInk: (c) => mix(c, '#000000', 0.78),
     catRim: 'transparent',
   },
 }
 
-/* ---- Fonts ---- */
+/* ---- Font ---- */
 
-// The site's families (portfolio index.html), one instance each.
 const FONTS = {
-  wide: 'Archivo:wdth,wght@125,700', // wordmark
-  display: 'Archivo:wdth,wght@118,620', // headings, numbers
-  mono: 'Geist+Mono:wght@500', // labels
+  mono: 'Geist+Mono:wght@400',
   monoBold: 'Geist+Mono:wght@700',
-  sans: 'Figtree:wght@400', // body
-  serif: 'Instrument+Serif:ital@1', // the italic key words
 }
-const MONO_LS = 0.15 // letter-spacing of the mono labels, in em
 
 const glyphs = Object.fromEntries(Object.keys(FONTS).map((k) => [k, new Set()]))
 
@@ -201,17 +171,15 @@ function t(font, s) {
   return esc(s)
 }
 
-/** Text width estimates. Geist Mono advances 0.6em; Figtree averages about
-    0.5em, so wrapping keeps a margin. */
-const monoW = (s, size) => s.length * size * (0.6 + MONO_LS)
-const sansW = (s, size) => s.length * size * 0.5
+// Geist Mono advances 0.6em.
+const monoW = (s, size) => [...s].length * size * 0.6
 
 function wrap(s, size, max) {
   const lines = []
   let line = ''
   for (const word of s.split(' ')) {
     const next = line ? `${line} ${word}` : word
-    if (line && sansW(next, size) > max) {
+    if (line && monoW(next, size) > max) {
       lines.push(line)
       line = word
     } else line = next
@@ -248,47 +216,141 @@ const dataUri = (path) => {
   return `data:image/${type};base64,${readFileSync(path).toString('base64')}`
 }
 
-/** A mono label (uppercased like .ed-mono). */
-const mono = (x, y, s, fill, { size = 13, anchor = 'start', bold = false } = {}) =>
-  `<text x="${x}" y="${y}" class="${bold ? 'monoBold' : 'mono'}" font-size="${size}" fill="${fill}" text-anchor="${anchor}">${t(bold ? 'monoBold' : 'mono', s.toUpperCase())}</text>`
+/** One line of text. */
+const txt = (x, y, s, fill, { size = 15, bold = false, anchor = 'start', extra = '' } = {}) =>
+  `<text x="${x}" y="${y}" class="${bold ? 'monoBold' : 'mono'}" font-size="${size}" fill="${fill}" text-anchor="${anchor}"${extra}>${t(bold ? 'monoBold' : 'mono', s)}</text>`
 
-/** The site's north-east arrow, drawn so it doesn't depend on a glyph. */
+/** One line in several colors: [[text, fill, bold?], ...]. */
+const spans = (x, y, parts, size = 15) =>
+  `<text x="${x}" y="${y}" font-size="${size}">${parts
+    .map(([s, fill, bold]) => `<tspan class="${bold ? 'monoBold' : 'mono'}" fill="${fill}">${t(bold ? 'monoBold' : 'mono', s)}</tspan>`)
+    .join('')}</text>`
+
+/** A north-east arrow, drawn so it doesn't depend on a glyph. */
 const arrow = (x, y, stroke, s = 9) =>
   `<path d="M${x} ${y} l${s} -${s} M${x + s * 0.3} ${y - s} h${s * 0.7} v${s * 0.7}" fill="none" stroke="${stroke}" stroke-width="1.4"/>`
 
-/** A heading: display words with the key words in the serif italic. */
-function heading(x, y, parts, size, fill) {
-  const spans = parts
-    .map(([s, italic]) =>
-      italic
-        ? `<tspan class="serif" font-size="${size * 1.08}">${t('serif', s)}</tspan>`
-        : `<tspan class="display">${t('display', s)}</tspan>`,
-    )
-    .join('')
-  return `<text x="${x}" y="${y}" font-size="${size}" fill="${fill}" letter-spacing="${-size * 0.03}">${spans}</text>`
-}
-
 const STYLE = `
-.mono{font-family:tz-mono,ui-monospace,monospace;letter-spacing:${MONO_LS}em}
-.monoBold{font-family:tz-monoBold,ui-monospace,monospace;letter-spacing:${MONO_LS}em}
-.sans{font-family:tz-sans,system-ui,sans-serif}
-.display{font-family:tz-display,system-ui,sans-serif}
-.wide{font-family:tz-wide,system-ui,sans-serif}
-.serif{font-family:tz-serif,Georgia,serif;letter-spacing:-.01em}
+text{white-space:pre}
+.mono{font-family:tz-mono,ui-monospace,monospace}
+.monoBold{font-family:tz-monoBold,ui-monospace,monospace}
+.show{animation:show .01s both}@keyframes show{from{opacity:0}}
+.type{transform-box:fill-box;transform-origin:100% 50%;transform:scaleX(0)}@keyframes type{from{transform:scaleX(1)}}
+.cursor{animation:blink 1.1s infinite}@keyframes blink{0%,49%{opacity:1}50%,100%{opacity:0}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important}}`
-
-/** The panel's edge, drawn last so it sits over any fill. */
-const outline = (w, h, th) =>
-  `<rect x=".5" y=".5" width="${w - 1}" height="${h - 1}" fill="none" stroke="${th.frame}"/>`
 
 /** An SVG panel, drawn in a w x h box and sized `shown` px wide: a <picture>
     with no width attribute shows it at that size (shrunk to fit if wider). */
 function svg(w, h, body, extraStyle = '', shown = w) {
-  return `<svg xmlns="http://www.w3.org/2000/svg" width="${shown}" height="${(h * shown) / w}" viewBox="0 0 ${w} ${h}">
+  return `<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="${shown}" height="${(h * shown) / w}" viewBox="0 0 ${w} ${h}">
 <style>%%FONTS%%${STYLE}${extraStyle}</style>
 ${body}
 </svg>
 `
+}
+
+const R = 0 // window corner radius: square, like a tiling window manager
+
+/** A terminal window: the title bar, then the body. */
+function win(th, w, h, { bar = 36, title = '', right = '' }, inner) {
+  return `
+<defs><clipPath id="win"><rect width="${w}" height="${h}" rx="${R}"/></clipPath></defs>
+<g clip-path="url(#win)"><rect width="${w}" height="${h}" fill="${th.page}"/><rect width="${w}" height="${bar}" fill="${th.chrome}"/><path d="M0 ${bar - 0.5}H${w}" stroke="${th.frame}"/></g>
+${title ? txt(PAD, bar / 2 + 4, title, th.faint, { size: bar > 32 ? 12 : 11 }) : ''}
+${right}
+${inner}
+<rect x=".5" y=".5" width="${w - 1}" height="${h - 1}" rx="${R}" fill="none" stroke="${th.frame}"/>`
+}
+
+/** The shell prompt, as spans. */
+const prompt = (th, path = '~') => [
+  ['tuzkituan@hcmc', th.green, true],
+  [':', th.ink],
+  [path, th.blue, true],
+  ['$ ', th.ink],
+]
+
+/** A prompt that appears at `at` seconds and types its command. Returns the
+    markup and when the typing ends. */
+function command(th, x, y, path, cmd, at, size = 15) {
+  const p = prompt(th, path)
+  const px = x + monoW(p.map(([s]) => s).join(''), size)
+  const dur = +(cmd.length * 0.055).toFixed(2)
+  const start = at + 0.3
+  const cover = cmd
+    ? `<rect x="${px}" y="${y - size}" width="${monoW(cmd, size) + 2}" height="${size * 1.45}" fill="${th.page}" class="type" style="animation:type ${dur}s steps(${cmd.length}) ${start}s both"/>`
+    : ''
+  return {
+    svg: `<g class="show" style="animation-delay:${at}s">${spans(x, y, [...p, [cmd, th.strong]], size)}${cover}</g>`,
+    end: start + dur + 0.25,
+    x: px + monoW(cmd, size),
+  }
+}
+
+/** Output that appears at `at` seconds. */
+const later = (at, inner) => `<g class="show" style="animation-delay:${at.toFixed(2)}s">${inner}</g>`
+
+/** A block cursor, blinking. */
+const cursor = (th, x, y, size = 15) =>
+  `<rect class="cursor" x="${x}" y="${y - size * 0.82}" width="${size * 0.6}" height="${size * 1.05}" fill="${th.ink}"/>`
+
+/* ---- The ASCII wordmark ---- */
+
+// figlet's ANSI Shadow font, one word each so they take separate colours.
+const ART = {
+  TUZKI: [
+    '████████╗██╗   ██╗███████╗██╗  ██╗██╗',
+    '╚══██╔══╝██║   ██║╚══███╔╝██║ ██╔╝██║',
+    '   ██║   ██║   ██║  ███╔╝ █████╔╝ ██║',
+    '   ██║   ██║   ██║ ███╔╝  ██╔═██╗ ██║',
+    '   ██║   ╚██████╔╝███████╗██║  ██╗██║',
+    '   ╚═╝    ╚═════╝ ╚══════╝╚═╝  ╚═╝╚═╝',
+  ],
+  TUAN: [
+    '████████╗██╗   ██╗ █████╗ ███╗   ██╗',
+    '╚══██╔══╝██║   ██║██╔══██╗████╗  ██║',
+    '   ██║   ██║   ██║███████║██╔██╗ ██║',
+    '   ██║   ██║   ██║██╔══██║██║╚██╗██║',
+    '   ██║   ╚██████╔╝██║  ██║██║ ╚████║',
+    '   ╚═╝    ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═══╝',
+  ],
+}
+
+/** One box-drawing character in a w x h cell at (x, y), as path segments:
+    the double lines run at a third and two thirds of the cell. */
+function boxChar(ch, x, y, w, h) {
+  const [x1, x2, y1, y2] = [x + w * 0.3, x + w * 0.7, y + h * 0.36, y + h * 0.64]
+  const [r, b] = [x + w, y + h]
+  const seg = {
+    '═': [[x, y1, r, y1], [x, y2, r, y2]],
+    '║': [[x1, y, x1, b], [x2, y, x2, b]],
+    '╗': [[x, y1, x2, y1], [x2, y1, x2, b], [x, y2, x1, y2], [x1, y2, x1, b]],
+    '╔': [[x1, y1, r, y1], [x1, y1, x1, b], [x2, y2, r, y2], [x2, y2, x2, b]],
+    '╝': [[x2, y, x2, y2], [x, y2, x2, y2], [x1, y, x1, y1], [x, y1, x1, y1]],
+    '╚': [[x1, y, x1, y2], [x1, y2, r, y2], [x2, y, x2, y1], [x2, y1, r, y1]],
+  }[ch]
+  return seg ? seg.map(([a, c, d, e]) => `M${a.toFixed(1)} ${c.toFixed(1)}L${d.toFixed(1)} ${e.toFixed(1)}`).join('') : ''
+}
+
+/** The words in ASCII art, each [word, fill], drawn cell by cell: the blocks
+    solid, the box-drawing shadow as thin lines. No font has to carry them. */
+function ascii(x, y, words, cw, ch) {
+  let out = ''
+  let ox = x
+  for (const [word, fill] of words) {
+    let blocks = ''
+    let lines = ''
+    ART[word].forEach((row, ry) =>
+      [...row].forEach((c, rx) => {
+        const [cx, cy] = [ox + rx * cw, y + ry * ch]
+        if (c === '█') blocks += `M${cx.toFixed(1)} ${cy}h${cw}v${ch}h${-cw}z`
+        else lines += boxChar(c, cx, cy, cw, ch)
+      }),
+    )
+    out += `<path d="${blocks}" fill="${fill}" shape-rendering="crispEdges"/><path d="${lines}" fill="none" stroke="${fill}" stroke-opacity=".55" stroke-width="1"/>`
+    ox += ([...ART[word][0]].length + 1) * cw
+  }
+  return out
 }
 
 /* ---- Panels ---- */
@@ -330,119 +392,85 @@ function cat(x, y, h, th) {
 const CAT_STYLE = `
 .cat-tail{transform-box:view-box;transform-origin:96px 160px;animation:tail 3.2s ease-in-out infinite alternate}
 @keyframes tail{from{transform:rotate(-7deg)}to{transform:rotate(6deg)}}
-.cat-eyes{transform-box:fill-box;transform-origin:50% 50%;animation:blink 5s infinite}
-@keyframes blink{0%,94%,100%{transform:scaleY(1)}97%{transform:scaleY(.1)}}`
+.cat-eyes{transform-box:fill-box;transform-origin:50% 50%;animation:cat-blink 5s infinite}
+@keyframes cat-blink{0%,94%,100%{transform:scaleY(1)}97%{transform:scaleY(.1)}}`
 
-/** Hero: the overview strip, the running grid, the wordmark, the headline
-    beside the bio, then the press ticker and the numbers. */
+/** Hero: a shell session typing whoami, the bio and the numbers. */
 function hero(th) {
-  const STRIP = 44
-  const BODY = 520
-  const TICK = 40
-  const top = STRIP + BODY
-  const statsTop = top + TICK
-  const CELL_H = 92
-  const H = statsTop + CELL_H * 2
+  const LH = 26
+  let y = 36 + 42
+  let at = 0.2
+  let body = ''
 
-  // Grid: one cell larger than the band, sliding a cell every 6s.
-  const G = 96
-  let grid = ''
-  for (let x = -G; x <= W + G; x += G) grid += `M${x} ${-G}V${BODY + G}`
-  for (let y = -G; y <= BODY + G; y += G) grid += `M${-G} ${y}H${W + G}`
-  const cells = [
-    [1, 0, 0],
-    [7, 1, -6],
-    [3, 3, -12],
-    [9, 2, -18],
-    [5, 4, -3],
-    [0, 3, -15],
-  ]
-    .map(
-      ([cx, cy, d]) =>
-        `<rect x="${cx * G + 0.5}" y="${cy * G + 0.5}" width="${G - 1}" height="${G - 1}" fill="${th.bandCell}" class="cell" style="animation-delay:${d}s"/>`,
-    )
-    .join('')
+  // $ whoami
+  let c = command(th, PAD, y, '~', 'whoami', at)
+  body += c.svg
+  at = c.end
+  y += 20
+  body += later(at, ascii(PAD, y, [['TUZKI', th.strong], ['TUAN', th.blue]], 7, 14))
+  y += 14 * 6 + 32
+  body += later(
+    at,
+    spans(PAD, y, [
+      [PROFILE.name, th.strong, true],
+      [` (${PROFILE.nickname})`, th.faint],
+      [` · ${PROFILE.role} · ${PROFILE.location}`, th.muted],
+    ]),
+  )
+  at += 0.5
 
-  // Ticker: two identical halves, sliding one half's width.
-  const TS = 12
-  let half = ''
-  let hx = 0
-  for (let r = 0; r < 2; r++)
-    for (const o of OUTLETS) {
-      half += mono(hx + 24, 25, o, th.bandFaint, { size: TS })
-      hx += 24 + monoW(o, TS) + 24
-      half += `<rect x="${hx - 3}" y="17" width="6" height="6" fill="${th.accentInk}"/>`
-    }
-  const ticker = `<g class="ticker">${half}<g transform="translate(${hx} 0)">${half}</g></g>`
+  // $ cat about.md
+  y += LH * 2
+  c = command(th, PAD, y, '~', 'cat about.md', at)
+  body += c.svg
+  at = c.end
+  y += LH + 4
+  let out = spans(PAD, y, [['# ', th.faint, true], ['Tile-first apps. ', th.strong, true], ['Clean web UIs.', th.blue, true]])
+  for (const line of wrap(PROFILE.bio, 15, W - 2 * PAD)) {
+    y += LH
+    out += txt(PAD, y, line, th.muted)
+  }
+  body += later(at, out)
+  at += 0.5
 
-  const stats = STATS.map((s, i) => {
-    const x = (i % 3) * (W / 3)
-    const y = statsTop + Math.floor(i / 3) * CELL_H
-    const star = s.star
-      ? `<path transform="translate(${x + PAD + s.value.length * 23} ${y + 28}) scale(1.6)" d="M10 0l2.9 6.6 7.1.6-5.4 4.7 1.6 7L10 15.3 3.8 19l1.6-7L0 7.2l7.1-.6z" fill="${th.accentInk}"/>`
-      : ''
-    return `<text x="${x + PAD}" y="${y + 56}" class="display" font-size="40" letter-spacing="-1.4" fill="${th.accentInk}">${t('display', s.value)}</text>${star}${mono(x + PAD, y + 78, s.label, th.faint, { size: 12 })}`
+  // $ stats
+  y += LH * 2
+  c = command(th, PAD, y, '~', 'stats', at)
+  body += c.svg
+  at = c.end
+  y += LH + 4
+  out = STATS.map((s, i) => {
+    const x = PAD + (i % 3) * 312
+    const sy = y + Math.floor(i / 3) * LH
+    return spans(x, sy, [[(s.star ? `${s.value}/5` : s.value).padEnd(6), th.yellow, true], [s.label, th.muted]])
   }).join('')
-  const statLines = `<path d="M0 ${statsTop}H${W}M0 ${statsTop + CELL_H}H${W}M${W / 3} ${statsTop}V${H}M${(2 * W) / 3} ${statsTop}V${H}" stroke="${th.frame}"/>`
+  body += later(at, out)
+  y += LH
+  at += 0.5
 
-  const bio = wrap(PROFILE.bio, 16, 380)
-    .map((l, i) => `<tspan x="560" dy="${i ? 26 : 0}">${t('sans', l)}</tspan>`)
-    .join('')
+  // the idle prompt
+  y += LH * 2
+  c = command(th, PAD, y, '~', '', at)
+  body += c.svg + later(at, cursor(th, c.x, y))
 
-  const body = `
-<rect width="${W}" height="${top + TICK}" fill="${th.band}"/>
-<rect y="${statsTop}" width="${W}" height="${H - statsTop}" fill="${th.page}"/>
-<text x="${PAD}" y="27" class="mono" font-size="13"><tspan fill="${th.bandFaint}">${t('mono', '01 /')}</tspan><tspan fill="${th.bandStrong}">${t('mono', ' OVERVIEW')}</tspan></text>
-${mono(W - PAD, 27, `${PROFILE.role} · ${PROFILE.location}`, th.bandFaint, { size: 12, anchor: 'end' })}
-<path d="M0 ${STRIP - 0.5}H${W}" stroke="${th.frame}"/>
-<svg y="${STRIP}" width="${W}" height="${BODY}" viewBox="0 0 ${W} ${BODY}">
-  <defs><radialGradient id="fade" cx="50%" cy="50%" r="60%"><stop offset="40%" stop-color="#fff"/><stop offset="100%" stop-color="#fff" stop-opacity="0"/></radialGradient>
-  <mask id="m"><rect width="${W}" height="${BODY}" fill="url(#fade)"/></mask></defs>
-  <g mask="url(#m)"><g class="run">${cells}<path d="${grid}" stroke="${th.bandLine}" stroke-opacity=".55"/></g></g>
-  ${mono(PAD, 64, `Hi, I'm ${PROFILE.name}`, th.bandFaint)}
-  <text x="${PAD}" y="196" class="wide" font-size="122" textLength="${W - 2 * PAD}" lengthAdjust="spacingAndGlyphs" fill="${th.bandStrong}">${t('wide', 'TUZKI')}<tspan fill="${th.accentInk}">${t('wide', 'TUAN')}</tspan></text>
-  <path d="M${PAD} 240H${W - PAD}" stroke="${th.bandLine}"/>
-  ${heading(PAD, 308, [['Tile-first apps.']], 46, th.bandStrong)}
-  ${heading(PAD, 366, [['Clean web UIs.', true]], 46, th.bandStrong)}
-  <text y="292" class="sans" font-size="16" fill="${th.bandMuted}">${bio}</text>
-  <rect x="560.5" y="430.5" width="190" height="38" fill="none" stroke="${th.bandStrong}"/>
-  ${mono(578, 454, 'tuzkituan.dev', th.bandStrong, { size: 12 })}
-  ${arrow(728, 454, th.bandStrong, 8)}
-  ${cat(866, BODY - 108, 104, th)}
-</svg>
-<path d="M0 ${top + 0.5}H${W}M0 ${statsTop + 0.5}H${W}" stroke="${th.frame}"/>
-<svg y="${top}" width="${W}" height="${TICK}" viewBox="0 0 ${W} ${TICK}">${ticker}</svg>
-${statLines}
-${stats}
-${outline(W, H, th)}`
-
-  const style = `${CAT_STYLE}
-.run{animation:run 6s linear infinite}@keyframes run{to{transform:translate(${G}px,${G}px)}}
-.cell{opacity:0;animation:cell 24s ease-in-out infinite}@keyframes cell{0%,23%,100%{opacity:0}5%,18%{opacity:1}}
-.ticker{animation:tick ${Math.round(hx / 25)}s linear infinite}@keyframes tick{to{transform:translateX(-${hx}px)}}`
-  return svg(W, H, body, style)
+  const H = y + 34
+  const inner = body + cat(W - PAD - 104 * (140 / 170), H - 112, 104, th)
+  return svg(W, H, win(th, W, H, { title: `${PROFILE.nickname}@hcmc: ~ (zsh)` }, inner), CAT_STYLE)
 }
 
-/** A section opener: the numbered strip, then the heading and intro. */
-function section(th, index, label, meta, title, intro) {
-  const lines = intro ? wrap(intro, 18, 640) : []
-  const H = 44 + 60 + 52 + (lines.length ? 24 + lines.length * 28 : 0) + 36
-  const introText = lines
-    .map((l, i) => `<tspan x="${PAD}" dy="${i ? 28 : 0}">${t('sans', l)}</tspan>`)
-    .join('')
-  const body = `
-<rect width="${W}" height="${H}" fill="${th.page}"/>
-<path d="M0 43.5H${W}" stroke="${th.frame}"/>
-<text x="${PAD}" y="27" class="mono" font-size="13"><tspan fill="${th.faint}">${t('mono', `${String(index).padStart(2, '0')} /`)}</tspan><tspan fill="${th.strong}">${t('mono', ` ${label.toUpperCase()}`)}</tspan></text>
-${mono(W - PAD, 27, meta, th.faint, { size: 12, anchor: 'end' })}
-${heading(PAD, 44 + 60 + 40, title, 56, th.strong)}
-${lines.length ? `<text y="${44 + 60 + 52 + 34}" class="sans" font-size="18" fill="${th.muted}">${introText}</text>` : ''}
-${outline(W, H, th)}`
-  return svg(W, H, body)
+/** A plain bordered box, the panel's background inside. */
+const box = (th, w, h) =>
+  `<rect x=".5" y=".5" width="${w - 1}" height="${h - 1}" fill="${th.page}" stroke="${th.frame}"/>`
+
+/** A section opener: one command, then the heading, on the page itself. */
+function section(th, path, cmd, title) {
+  // Static: the page behind is GitHub's, so there's no colour to type over.
+  const line = spans(PAD, 30, [...prompt(th, path), [cmd, th.strong]])
+  const out = spans(PAD, 84, title.map(([s, hi]) => [s, hi ? th.blue : th.strong, true]), 36)
+  return svg(W, 108, line + out)
 }
 
-/** A project in the lineup, compact: the numbered accent chip and kicker
-    on the strip, then the icon beside the name, tagline and chips. */
+/** A project in the lineup: the icon beside the name and tagline. */
 const CW = 500
 // Half the gap between the two cards of a row, as a transparent gutter on
 // each card's inner side. The images sit with no space between them: a space
@@ -451,81 +479,57 @@ const GUTTER = 13
 // The gap below each card, as a gutter: the cards share one line-wrapped paragraph.
 const CARD_ROW = 20
 const TX = PAD + 76 // the text column, right of the icon
-const CH = 212
+const CH = 120
 function card(th, p, i, size) {
-  const n = String(i + 1).padStart(2, '0')
   const cut = p.name.lastIndexOf(' ')
   const name =
     cut < 0
-      ? t('display', p.name)
-      : `${t('display', p.name.slice(0, cut + 1))}<tspan fill="${th.appInk(p.accent)}">${t('display', p.name.slice(cut + 1))}</tspan>`
+      ? [[p.name, th.strong, true]]
+      : [[p.name.slice(0, cut + 1), th.strong, true], [p.name.slice(cut + 1), th.appInk(p.accent), true]]
+  const IY = (CH - 56) / 2
   const icon = p.icon
-    ? `<image href="${dataUri(p.icon)}" x="${PAD}" y="64" width="56" height="56"/>`
-    : `<text x="${PAD + 28}" y="106" class="wide" font-size="28" fill="#fff" text-anchor="middle">${t('wide', p.name[0])}</text>`
-  const lines = wrap(p.tagline, 14, CW - TX - PAD + 30)
-  const tag = lines
-    .map((l, k) => `<tspan x="${TX}" dy="${k ? 22 : 0}">${t('sans', l)}</tspan>`)
+    ? `<image href="${dataUri(p.icon)}" x="${PAD}" y="${IY}" width="56" height="56"/>`
+    : txt(PAD + 28, IY + 38, p.name[0], '#fff', { size: 28, bold: true, anchor: 'middle' })
+  const tag = wrap(p.tagline, 13, CW - TX - PAD)
+    .map((line, k) => txt(TX, 70 + k * 20, line, th.muted, { size: 13 }))
     .join('')
-  let tx = TX
-  const chipY = CH - 28 - 19 // pinned, so the tags line up across a row
-  const chips = p.tech
-    .map((s) => {
-      const w = monoW(s, 10) + 12
-      const out = `<rect x="${tx + 0.5}" y="${chipY + 0.5}" width="${w}" height="19" fill="none" stroke="${th.lineStrong}"/>${mono(tx + 6, chipY + 14, s, th.muted, { size: 10 })}`
-      tx += w + 6
-      return out
-    })
-    .join('')
-  const body = `
-<rect width="${CW}" height="${CH}" fill="${th.page}"/>
-<rect x="${PAD}" y="13" width="${monoW(n, 12) + 10}" height="19" fill="${p.accent}"/>
-${mono(PAD + 5, 27, n, '#fff', { size: 12, bold: true })}
-${mono(CW - PAD - 20, 27, p.kicker, th.faint, { size: 12, anchor: 'end' })}
-${arrow(CW - PAD - 9, 28, th.muted, 9)}
-<path d="M0 44.5H${CW}" stroke="${th.frame}"/>
-<rect x="${PAD}" y="64" width="56" height="56" fill="${p.accent}"/>
+  const body = `${box(th, CW, CH)}
+<rect x="${PAD}" y="${IY}" width="56" height="56" fill="${p.accent}"/>
 ${icon}
-<text x="${TX}" y="88" class="display" font-size="24" letter-spacing="-.8" fill="${th.strong}">${name}</text>
-<text y="114" class="sans" font-size="14" fill="${th.muted}">${tag}</text>
-${chips}
-${outline(CW, CH, th)}`
+${spans(TX, 48, name, 20)}
+${tag}`
   if (size === 'narrow') return svg(CW, CH + CARD_ROW, body, '', FULL)
   const dx = i % 2 ? GUTTER : 0
   return svg(CW + GUTTER, CH + CARD_ROW, `<g transform="translate(${dx} 0)">${body}</g>`, '', README_W / 2)
 }
 
-/** A contact tile: the numbered host up top, the name large below. */
+/** A contact tile: the name, and the host under it. */
 const TW = 250
-const TH = 150
+const TH = 96
 // The gap between tiles, as gutters: tile i takes i/4 of a gap on its left
 // and (3 - i)/4 on its right, so all four stay the same width.
 const TILE_GAP = 28
 const TILE_ROW = 16
 function tile(th, c, i, size) {
-  const host = c.host.length > 18 ? 'email' : c.host
-  const label = `${String(i + 1).padStart(2, '0')} · ${host}`
-  // Narrow: one wide, short tile to a row, so four don't fill a screen.
-  const [w, h, nameY, size_] = size === 'narrow' ? [500, 96, 74, 26] : [TW, TH, TH - 28, 24]
-  const body = `
-<rect width="${w}" height="${h}" fill="${th.page}"/>
-${mono(PAD, 32, label, th.faint, { size: 10 })}
-${arrow(w - PAD - 9, 34, th.muted, 9)}
-<text x="${PAD}" y="${nameY}" class="display" font-size="${size_}" letter-spacing="-1" fill="${th.strong}">${t('display', c.label)}</text>
-${outline(w, h, th)}`
-  if (size === 'narrow') return svg(w, h + TILE_ROW, body, '', FULL)
-  return svg(w + (TILE_GAP * 3) / 4, h, `<g transform="translate(${(TILE_GAP * i) / 4} 0)">${body}</g>`, '', README_W / 4)
+  const host = c.host.length > 18 ? 'mail' : c.host
+  if (size === 'narrow') {
+    // One wide, short tile to a row, so four don't fill a screen.
+    const [w, h] = [500, 72]
+    const body = `${box(th, w, h)}${txt(PAD, 44, c.label, th.strong, { size: 20, bold: true })}${txt(w - PAD, 43, host, th.faint, { size: 12, anchor: 'end' })}`
+    return svg(w, h + TILE_ROW, body, '', FULL)
+  }
+  const body = `${box(th, TW, TH)}${txt(PAD, 44, c.label, th.strong, { size: 20, bold: true })}${txt(PAD, 68, host, th.faint, { size: 12 })}`
+  return svg(TW + (TILE_GAP * 3) / 4, TH, `<g transform="translate(${(TILE_GAP * i) / 4} 0)">${body}</g>`, '', README_W / 4)
 }
 
-/** The coffee strip at the very bottom. */
+/** The coffee line at the very bottom. */
 function coffee(th) {
-  const H = 72
+  const H = 48
   const cta = 'Buy me one on PayPal'
   const body = `
-<rect width="${W}" height="${H}" fill="${th.band}"/>
-${mono(PAD, 41, 'Fueled by coffee · it keeps the apps shipping', th.bandFaint, { size: 12 })}
-${mono(W - PAD - 22, 41, cta, th.bandStrong, { size: 12, anchor: 'end' })}
-${arrow(W - PAD - 12, 41, th.bandStrong, 8)}
-${outline(W, H, th)}`
+${spans(PAD, 30, [...prompt(th), ['sudo make coffee', th.strong]])}
+${txt(W - PAD - 22, 30, cta, th.blue, { bold: true, size: 14, anchor: 'end' })}
+${arrow(W - PAD - 12, 30, th.blue, 8)}`
   return svg(W, H, body)
 }
 
@@ -534,20 +538,13 @@ ${outline(W, H, th)}`
 const panels = {}
 for (const [mode, th] of Object.entries(THEMES)) {
   panels[`hero-${mode}`] = hero(th)
-  panels[`projects-${mode}`] = section(
-    th,
-    2,
-    'Projects',
-    'Pick one to explore',
-    [['The '], ['lineup', true], ['.']],
-    'Android apps in the Metro style, a React component library, and the work around them.',
-  )
+  panels[`projects-${mode}`] = section(th, '~/projects', 'ls', [['The '], ['lineup', true], ['.']])
   for (const size of ['wide', 'narrow']) {
     PROJECTS.forEach((p, i) => (panels[`card-${p.id}-${size}-${mode}`] = card(th, p, i, size)))
     CONTACTS.forEach((c, i) => (panels[`contact-${i + 1}-${size}-${mode}`] = tile(th, c, i, size)))
   }
-  panels[`press-${mode}`] = section(th, 3, 'Press', `${PRESS.length} articles`, [['As seen '], ['on', true], ['.']])
-  panels[`contact-${mode}`] = section(th, 4, 'Contact', 'Email, GitHub, LinkedIn', [["Let's "], ['talk', true], ['.']])
+  panels[`press-${mode}`] = section(th, '~/press', 'grep -l METROV *', [['As seen '], ['on', true], ['.']])
+  panels[`contact-${mode}`] = section(th, '~', 'cat .contacts', [["Let's "], ['talk', true], ['.']])
   panels[`coffee-${mode}`] = coffee(th)
 }
 
